@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+<script src="config.js"></script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>海哥的多线作战台</title>
@@ -194,9 +196,9 @@ h2 svg{width:16px;height:16px;flex-shrink:0}
 <div class="card">
   <div class="hd">
     <h2><svg viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>今天要处理</h2>
-    <span class="hint" id="todayHint" data-sp-bindable="database" data-sp-database-id="1gQHCbHHyZIFJDGIrzyWrJ"></span>
+    <span class="hint" id="todayHint" data-sp-bindable="database" data-sp-database-id="<你的TODO表ID>"></span>
   </div>
-  <div id="todoList" data-sp-bindable="database" data-sp-database-id="1gQHCbHHyZIFJDGIrzyWrJ"></div>
+  <div id="todoList" data-sp-bindable="database" data-sp-database-id="<你的TODO表ID>"></div>
   <div class="row" style="margin-top:10px">
     <button class="btn btn-p btn-sm" id="btnAddTodo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>新增待办</button>
     <button class="btn btn-sm" id="btnPostpone">全部顺延到今天</button>
@@ -222,7 +224,7 @@ h2 svg{width:16px;height:16px;flex-shrink:0}
     <h2><svg viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg>项目进度总览</h2>
     <span class="hint">全部工作线</span>
   </div>
-  <div id="projList" data-sp-bindable="database" data-sp-database-id="1gQHCbHHyZIFJDGIrzyWrJ"></div>
+  <div id="projList" data-sp-bindable="database" data-sp-database-id="<你的TODO表ID>"></div>
   <div class="row" style="margin-top:10px">
     <button class="btn btn-p btn-sm" id="btnAddProj"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>新增里程碑</button>
   </div>
@@ -241,7 +243,7 @@ h2 svg{width:16px;height:16px;flex-shrink:0}
 
 <div id="tabProject" style="display:none">
 <div class="card" id="pjHead"></div>
-<div class="stats" id="pjStats" data-sp-bindable="database" data-sp-database-id="cHPTKdlZZXnjPrU1Y9C9FS"></div>
+<div class="stats" id="pjStats" data-sp-bindable="database" data-sp-database-id="<你的MONTH表ID>"></div>
 
 <div class="card">
   <div class="hd"><h2 id="pjStatTitle" style="display:flex;align-items:center;gap:8px"></h2><span class="hint" id="pjStatHint"></span></div>
@@ -251,21 +253,21 @@ h2 svg{width:16px;height:16px;flex-shrink:0}
 <div id="wwBlocks" style="display:none">
 <div class="card">
   <div class="hd"><h2 style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>信息录入</h2><span class="hint">语音 / 文字 · 存进随手记</span></div>
-  <div id="wwNoteBox" data-sp-bindable="database" data-sp-database-id="PouGOpqFGDOBIEayNHdayk"></div>
+  <div id="wwNoteBox" data-sp-bindable="database" data-sp-database-id="<你的NOTE表ID>"></div>
 </div>
 <div class="card">
   <div class="hd"><h2 style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>每日打卡</h2><span class="hint">8:30 上班卡 → 17:30 下班卡</span></div>
-  <div id="wwCheckBox" data-sp-bindable="database" data-sp-database-id="2oiXI7NgV4T56mTqDJgaNu"></div>
+  <div id="wwCheckBox" data-sp-bindable="database" data-sp-database-id="<你的CHECK表ID>"></div>
 </div>
 <div class="card">
   <div class="hd"><h2 style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>客户档案</h2><span class="hint">订货日期 · 产品 · 数量 · 金额 · 在卖 SKU</span></div>
-  <div id="wwCustBox" data-sp-bindable="database" data-sp-database-id="JTZew6TvIp5hG4EKe71u5L"></div>
+  <div id="wwCustBox" data-sp-bindable="database" data-sp-database-id="<你的ORDER表ID>"></div>
 </div>
 </div>
 
 <div class="card">
   <div class="hd"><h2 id="pjListTitle" style="display:flex;align-items:center;gap:8px"></h2><span class="hint" id="pjListHint"></span></div>
-  <div id="pjTodoList" data-sp-bindable="database" data-sp-database-id="1gQHCbHHyZIFJDGIrzyWrJ"></div>
+  <div id="pjTodoList" data-sp-bindable="database" data-sp-database-id="<你的TODO表ID>"></div>
 </div>
 </div>
 
@@ -281,7 +283,8 @@ h2 svg{width:16px;height:16px;flex-shrink:0}
 <div class="mask" id="scoreMask">
   <div class="mdl" id="scoreMdl" role="dialog" aria-modal="true"></div>
 </div>
-<script>
+<script>var WORKMIN_CONFIG = Object.assign({NODE_ID:'<你的空间节点ID>',TODO:'<你的待办表ID>',NOTE:'<你的随手记表ID>',LOG:'<你的修改日志表ID>',CUST:'<你的客户档案表ID>',ORDER:'<你的客户订货明细表ID>',SKU:'<你的在卖SKU表ID>',KPI:'<你的KPI表ID>',CHECK:'<你的打卡表ID>',HW:'<你的作业表ID>',WRONG:'<你的错题表ID>',MONTH:'<你的月度统计表ID>',SCORE:'<你的学科成绩表ID>'}, window.WORKMIN_CONFIG || {});
+
 (function(){
 "use strict";
 
@@ -294,7 +297,7 @@ var LINES = {
   '孩子作业':   {c:'#3B6D11', bg:'#EAF3DE'}
 };
 
-var db = (window.__SMART_PAGE__ && window.__SMART_PAGE__.database) ? window.__SMART_PAGE__.database : null;
+var db = (window.__SMART_PAGE__ && window.__SMART_PAGE__.database) ? window.__SMART_PAGE__.database : makeLocalDb();
 var SCHEMA = {todo:[]};
 var cache = {todos:[], months:[], orders:[], skus:[], kpis:[], checks:[], hw:[], wrong:[], notes:[], cust:[], logs:[], scores:[]};
 var online = !!db;
@@ -441,19 +444,48 @@ function setSync(state){
   dot.style.background=m[0]; tx.textContent=m[1];
 }
 
+/* ===== 本地兜底数据库（无 SDK 时启用；localStorage 实现，返回与 cache 一致的扁平纯值） ===== */
+function makeLocalDb(){
+  var LS='ww_want_';
+  var KIND={};
+  Object.keys(WORKMIN_CONFIG).forEach(function(k){ if(k!=='NODE_ID') KIND[WORKMIN_CONFIG[k]]=k.toLowerCase(); });
+  function kindOf(id){ return KIND[id]||null; }
+  function read(kind){ try{ return JSON.parse(localStorage.getItem(LS+kind)||'[]'); }catch(e){ return []; } }
+  function write(kind,arr){ try{ localStorage.setItem(LS+kind, JSON.stringify(arr)); }catch(e){} }
+  function flatProps(p){ var out={}; if(!p) return out;
+    Object.keys(p).forEach(function(k){ var v=p[k];
+      if(v && typeof v==='object'){ out[k]=(v.text!==undefined)?v.text:(v.number!==undefined?v.number:(v.date!==undefined?v.date:(v.select!==undefined?v.select:(v.checkbox!==undefined?v.checkbox:v)))); }
+      else { out[k]=v; } });
+    return out; }
+  function offlineToast(){ try{ toast('离线模式，已存本地；在资料库页面打开可写云端'); }catch(e){} }
+  return {
+    query:function(o){ var k=kindOf(o&&o.databaseId); return Promise.resolve({results:read(k), hasMore:false, nextCursor:null}); },
+    getSchema:function(){ return Promise.resolve({properties:[]}); },
+    addRecord:function(o){ var k=kindOf(o&&o.databaseId); var arr=read(k);
+      var rec=Object.assign({id:'local_'+Date.now()+'_'+Math.floor(Math.random()*1e4)}, flatProps(o.properties||{}));
+      arr.push(rec); write(k,arr); offlineToast(); return Promise.resolve({id:rec.id}); },
+    updateRecord:function(o){ var k=kindOf(o&&o.databaseId); var arr=read(k);
+      arr.forEach(function(r){ if((r.id||r._id)===o.recordId) Object.assign(r, flatProps(o.properties||{})); });
+      write(k,arr); offlineToast(); return Promise.resolve({id:o.recordId}); },
+    deleteRecord:function(o){ var k=kindOf(o&&o.databaseId);
+      var arr=read(k).filter(function(r){ return (r.id||r._id)!==o.recordId; }); write(k,arr);
+      return Promise.resolve({}); }
+  };
+}
+
 /* ===== 数据层（唯一读写数据库的地方） ===== */
 /* databaseId 按 SDK 约定硬编码为字面量 */
-var TODO_DB   = '1gQHCbHHyZIFJDGIrzyWrJ';
-var NOTE_DB   = 'PouGOpqFGDOBIEayNHdayk';
-var CUST_DB   = '2bxBhhbZrbFGfZORlNNkE7';
-var LOG_DB    = 'X0WZ2bOXpqAHT5HEZjhMNS';
-var SCORE_DB  = 'YoQVogNYLTo7jyDH5aULAv';
+var TODO_DB = WORKMIN_CONFIG.TODO;
+var NOTE_DB = WORKMIN_CONFIG.NOTE;
+var CUST_DB = WORKMIN_CONFIG.CUST;
+var LOG_DB = WORKMIN_CONFIG.LOG;
+var SCORE_DB = WORKMIN_CONFIG.SCORE;
 var SCORE_SUBJECTS = ['语文','数学','英语'];
 
 function loadTodoAll(cursor, acc, guard){
   acc=acc||[]; guard=guard||0;
   if(guard>100) return Promise.resolve(acc);
-  return db.query({databaseId:'1gQHCbHHyZIFJDGIrzyWrJ', pageSize:200, startCursor:cursor})
+  return db.query({databaseId:WORKMIN_CONFIG.TODO, pageSize:200, startCursor:cursor})
     .then(function(r){
       acc=acc.concat(r.results||[]);
       var next=r.nextCursor;
@@ -467,7 +499,7 @@ function loadTodoAll(cursor, acc, guard){
 function loadNoteAll(cursor, acc, guard){
   acc=acc||[]; guard=guard||0;
   if(guard>100) return Promise.resolve(acc);
-  return db.query({databaseId:'PouGOpqFGDOBIEayNHdayk', pageSize:200, startCursor:cursor})
+  return db.query({databaseId:WORKMIN_CONFIG.NOTE, pageSize:200, startCursor:cursor})
     .then(function(r){
       acc=acc.concat(r.results||[]);
       var next=r.nextCursor;
@@ -481,7 +513,7 @@ function loadNoteAll(cursor, acc, guard){
 function loadLogAll(cursor, acc, guard){
   acc=acc||[]; guard=guard||0;
   if(guard>100) return Promise.resolve(acc);
-  return db.query({databaseId:'X0WZ2bOXpqAHT5HEZjhMNS', pageSize:200, startCursor:cursor})
+  return db.query({databaseId:WORKMIN_CONFIG.LOG, pageSize:200, startCursor:cursor})
     .then(function(r){
       acc=acc.concat(r.results||[]);
       var next=r.nextCursor;
@@ -495,7 +527,7 @@ function loadLogAll(cursor, acc, guard){
 function loadCustAll(cursor, acc, guard){
   acc=acc||[]; guard=guard||0;
   if(guard>100) return Promise.resolve(acc);
-  return db.query({databaseId:'2bxBhhbZrbFGfZORlNNkE7', pageSize:200, startCursor:cursor})
+  return db.query({databaseId:WORKMIN_CONFIG.CUST, pageSize:200, startCursor:cursor})
     .then(function(r){
       acc=acc.concat(r.results||[]);
       var next=r.nextCursor;
@@ -510,7 +542,7 @@ function loadCustAll(cursor, acc, guard){
 function loadMonthAll(cursor, acc, guard){
   acc=acc||[]; guard=guard||0;
   if(guard>100) return Promise.resolve(acc);
-  return db.query({databaseId:'cHPTKdlZZXnjPrU1Y9C9FS', pageSize:200, startCursor:cursor})
+  return db.query({databaseId:WORKMIN_CONFIG.MONTH, pageSize:200, startCursor:cursor})
     .then(function(r){
       acc=acc.concat(r.results||[]);
       var next=r.nextCursor;
@@ -525,7 +557,7 @@ function loadMonthAll(cursor, acc, guard){
 function loadOrderAll(cursor, acc, guard){
   acc=acc||[]; guard=guard||0;
   if(guard>100) return Promise.resolve(acc);
-  return db.query({databaseId:'JTZew6TvIp5hG4EKe71u5L', pageSize:200, startCursor:cursor})
+  return db.query({databaseId:WORKMIN_CONFIG.ORDER, pageSize:200, startCursor:cursor})
     .then(function(r){
       acc=acc.concat(r.results||[]);
       var next=r.nextCursor;
@@ -539,7 +571,7 @@ function loadOrderAll(cursor, acc, guard){
 function loadSkuAll(cursor, acc, guard){
   acc=acc||[]; guard=guard||0;
   if(guard>100) return Promise.resolve(acc);
-  return db.query({databaseId:'U3laEMDAkPXA2z8roktris', pageSize:200, startCursor:cursor})
+  return db.query({databaseId:WORKMIN_CONFIG.SKU, pageSize:200, startCursor:cursor})
     .then(function(r){
       acc=acc.concat(r.results||[]);
       var next=r.nextCursor;
@@ -553,7 +585,7 @@ function loadSkuAll(cursor, acc, guard){
 function loadKpiAll(cursor, acc, guard){
   acc=acc||[]; guard=guard||0;
   if(guard>100) return Promise.resolve(acc);
-  return db.query({databaseId:'bLlwFhzcQklJq9WJJmyoKg', pageSize:200, startCursor:cursor})
+  return db.query({databaseId:WORKMIN_CONFIG.KPI, pageSize:200, startCursor:cursor})
     .then(function(r){
       acc=acc.concat(r.results||[]);
       var next=r.nextCursor;
@@ -567,7 +599,7 @@ function loadKpiAll(cursor, acc, guard){
 function loadCheckAll(cursor, acc, guard){
   acc=acc||[]; guard=guard||0;
   if(guard>100) return Promise.resolve(acc);
-  return db.query({databaseId:'2oiXI7NgV4T56mTqDJgaNu', pageSize:200, startCursor:cursor})
+  return db.query({databaseId:WORKMIN_CONFIG.CHECK, pageSize:200, startCursor:cursor})
     .then(function(r){
       acc=acc.concat(r.results||[]);
       var next=r.nextCursor;
@@ -582,7 +614,7 @@ function loadCheckAll(cursor, acc, guard){
 function loadHwAll(cursor, acc, guard){
   acc=acc||[]; guard=guard||0;
   if(guard>100) return Promise.resolve(acc);
-  return db.query({databaseId:'asDeaPvz40oBo1xhdsaCHW', pageSize:200, startCursor:cursor})
+  return db.query({databaseId:WORKMIN_CONFIG.HW, pageSize:200, startCursor:cursor})
     .then(function(r){
       acc=acc.concat(r.results||[]);
       var next=r.nextCursor;
@@ -597,7 +629,7 @@ function loadHwAll(cursor, acc, guard){
 function loadScoreAll(cursor, acc, guard){
   acc=acc||[]; guard=guard||0;
   if(guard>100) return Promise.resolve(acc);
-  return db.query({databaseId:'YoQVogNYLTo7jyDH5aULAv', pageSize:200, startCursor:cursor})
+  return db.query({databaseId:WORKMIN_CONFIG.SCORE, pageSize:200, startCursor:cursor})
     .then(function(r){
       acc=acc.concat(r.results||[]);
       var next=r.nextCursor;
@@ -611,7 +643,7 @@ function loadScoreAll(cursor, acc, guard){
 function loadWrongAll(cursor, acc, guard){
   acc=acc||[]; guard=guard||0;
   if(guard>100) return Promise.resolve(acc);
-  return db.query({databaseId:'wMf3x6Z4PJFl30mAM0Ze4r', pageSize:200, startCursor:cursor})
+  return db.query({databaseId:WORKMIN_CONFIG.WRONG, pageSize:200, startCursor:cursor})
     .then(function(r){
       acc=acc.concat(r.results||[]);
       var next=r.nextCursor;
@@ -627,7 +659,7 @@ function readSchemas(){
   if(!ensureDb()) return Promise.resolve();
   setSync('同步中');
   return Promise.all([
-    db.getSchema({databaseId:'1gQHCbHHyZIFJDGIrzyWrJ'})
+    db.getSchema({databaseId:WORKMIN_CONFIG.TODO})
       .then(function(s){ SCHEMA.todo=s.properties||[]; })
       .catch(function(e){ console.error('[schema] 待办表结构加载失败:', e); })
   ]);
@@ -684,14 +716,14 @@ function fetchData(){
 function writeTodo(recordId, props){
   setSync('同步中');
   var op = recordId
-    ? db.updateRecord({databaseId:'1gQHCbHHyZIFJDGIrzyWrJ', recordId:recordId, properties:props})
-    : db.addRecord({databaseId:'1gQHCbHHyZIFJDGIrzyWrJ', properties:props});
+    ? db.updateRecord({databaseId:WORKMIN_CONFIG.TODO, recordId:recordId, properties:props})
+    : db.addRecord({databaseId:WORKMIN_CONFIG.TODO, properties:props});
   return op.catch(function(e){ console.error('[todo] 写入失败:', e); setSync('离线模式'); throw e; })
            .then(function(){ return fetchData(); });
 }
 /* 写入成功提示：离线时 offlineWrite 已提示过，不再叠加误导性「已写入」 */
 function wroteOk(cloudMsg){
-  if(!ensureDb()) return;
+  if(!(window.__SMART_PAGE__ && window.__SMART_PAGE__.database)) return;
   toast(cloudMsg);
 }
 /* 离线兜底写入：无 SDK（本地预览）时存 localStorage，页面立即可见 */
@@ -712,8 +744,8 @@ function writeNote(recordId, props){
   setSync('同步中');
   if(!ensureDb()){ return offlineWrite('notes', props); }
   var op = recordId
-    ? db.updateRecord({databaseId:'PouGOpqFGDOBIEayNHdayk', recordId:recordId, properties:props})
-    : db.addRecord({databaseId:'PouGOpqFGDOBIEayNHdayk', properties:props});
+    ? db.updateRecord({databaseId:WORKMIN_CONFIG.NOTE, recordId:recordId, properties:props})
+    : db.addRecord({databaseId:WORKMIN_CONFIG.NOTE, properties:props});
   return op.catch(function(e){ console.error('[note] 写入失败:', e); setSync('离线模式'); throw e; })
            .then(function(){ return fetchData(); });
 }
@@ -721,7 +753,7 @@ function writeNote(recordId, props){
 function writeLog(props){
   if(!ensureDb()){ return offlineWrite('logs', props); }
   setSync('同步中');
-  return db.addRecord({databaseId:'X0WZ2bOXpqAHT5HEZjhMNS', properties:props})
+  return db.addRecord({databaseId:WORKMIN_CONFIG.LOG, properties:props})
     .catch(function(e){ console.error('[log] 写入失败:', e); throw e; });
 }
 /* 客户主数据写入（随手记 AI 识别 / 客户档案） */
@@ -729,8 +761,8 @@ function writeCust(recordId, props){
   setSync('同步中');
   if(!ensureDb()){ return offlineWrite('cust', props); }
   var op = recordId
-    ? db.updateRecord({databaseId:'2bxBhhbZrbFGfZORlNNkE7', recordId:recordId, properties:props})
-    : db.addRecord({databaseId:'2bxBhhbZrbFGfZORlNNkE7', properties:props});
+    ? db.updateRecord({databaseId:WORKMIN_CONFIG.CUST, recordId:recordId, properties:props})
+    : db.addRecord({databaseId:WORKMIN_CONFIG.CUST, properties:props});
   return op.catch(function(e){ console.error('[cust] 写入失败:', e); setSync('离线模式'); throw e; })
            .then(function(){ return fetchData(); });
 }
@@ -738,7 +770,7 @@ function writeCust(recordId, props){
 function writeOrder(props){
   setSync('同步中');
   if(!ensureDb()){ return offlineWrite('orders', props); }
-  return db.addRecord({databaseId:'JTZew6TvIp5hG4EKe71u5L', properties:props})
+  return db.addRecord({databaseId:WORKMIN_CONFIG.ORDER, properties:props})
     .catch(function(e){ console.error('[order] 写入失败:', e); setSync('离线模式'); throw e; });
 }
 
@@ -790,8 +822,8 @@ var PROJECTS = [
   {key:'w4', name:'六爻抖音', tab:'选题库', desc:'本地号 · 冷启动', db:'todo'},
   {key:'w5', name:'孩子作业', tab:'辅导记录', desc:'苏州小学三年级', db:'todo'}
 ];
-var MONTH_DB = 'cHPTKdlZZXnjPrU1Y9C9FS';
-var STAT_DB   = 'cHPTKdlZZXnjPrU1Y9C9FS';
+var MONTH_DB = WORKMIN_CONFIG.MONTH;
+var STAT_DB = WORKMIN_CONFIG.MONTH;
 var TABS = [
   {id:'today',   label:'今天要处理', color:'#444441',  plain:true},
   {id:'projAll',  label:'项目总览',   color:'#888780',  plain:true},
@@ -1816,7 +1848,7 @@ function saveScore(sub, name, val, date, memo, btn){
       openScoreModal(sub);
       return Promise.resolve();
     }
-    return db.addRecord({databaseId:'YoQVogNYLTo7jyDH5aULAv', properties:props})
+    return db.addRecord({databaseId:WORKMIN_CONFIG.SCORE, properties:props})
       .then(function(){ return fetchData(); })
       .then(function(){
         setSync('已同步');
@@ -2188,7 +2220,7 @@ function renderNote(box, line){
     bDel.type='button';
     bDel.onclick=function(){
       if(!n.id){ toast('缺少记录 ID'); return; }
-      db.deleteRecord({databaseId:'PouGOpqFGDOBIEayNHdayk', recordId:n.id})
+      db.deleteRecord({databaseId:WORKMIN_CONFIG.NOTE, recordId:n.id})
         .then(function(){ return fetchData(); })
         .then(function(){ toast('已删除'); refreshAll(); })
         .catch(function(){ toast('删除失败'); });
@@ -2232,10 +2264,10 @@ function renderCheckin(box, line){
     + ' · 今日记录：' + (rec ? ('已存在 '+(String(rec._id||rec.id||'')||'').slice(0,8)) : '无(点方框新建)')
     + ' · 表内 '+cache.checks.length+' 条'
   );
-  dz.style.cssText='font-size:11px;color:'+(db?'#B4B2A9':'#A32D2D');
+  dz.style.cssText='font-size:11px;color:'+(getDb()?'#B4B2A9':'#A32D2D');
   dz.setAttribute('data-diag','1');
   dzWrap.appendChild(dz);
-  if(!db){
+  if(!getDb()){
     var rb=el('button','btn btn-sm','立即重连');
     rb.type='button';
     rb.style.cssText='min-height:24px;padding:0 8px;font-size:11px';
@@ -2366,10 +2398,10 @@ function toggleCheck(node, rec, todayStr){
   var rid = rec ? (rec.id||rec._id||rec.recordId||'') : '';
   var op;
   if(rec && rid){
-    op = db.updateRecord({databaseId:'2oiXI7NgV4T56mTqDJgaNu', recordId:rid, properties:props});
+    op = db.updateRecord({databaseId:WORKMIN_CONFIG.CHECK, recordId:rid, properties:props});
   }else{
     props['日期'] = {date: todayStr};
-    op = db.addRecord({databaseId:'2oiXI7NgV4T56mTqDJgaNu', properties:props});
+    op = db.addRecord({databaseId:WORKMIN_CONFIG.CHECK, properties:props});
   }
   op.then(function(){ return fetchData(); })
     .then(function(){
@@ -2536,7 +2568,7 @@ function bindEvents(){
 
 /* 防呆：本地文件打开时没有平台沙箱，SDK 永远不会注入，所有写入必然失败。
    顶部红色横幅 + 一键跳在线版本，避免用户对着本地文件反复排查。 */
-var PAGE_URL = 'https://www.workbuddy.cn/space/d/JvO8fDprv4BKXTCxoDDA2a';
+var PAGE_URL = 'https://www.workbuddy.cn/space/d/' + WORKMIN_CONFIG.NODE_ID;
 function fileBanner(){
   var isFile = false;
   try{ isFile = (location.protocol === 'file:'); }catch(_e){}

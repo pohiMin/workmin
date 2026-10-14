@@ -6,6 +6,21 @@ const { JSDOM } = require('C:/Users/10061/.workbuddy/binaries/node/workspace/nod
 const FILE = path.join(__dirname, 'index.html');
 const html = fs.readFileSync(FILE, 'utf8');
 
+/* 读取本地私有 config.js（真实资料库 ID；已被 .gitignore 排除、不进公开仓库），
+   注入页面 WORKMIN_CONFIG，使 mock db 能按真实 databaseId 匹配夹具数据。
+   config.js 缺失则退出并提示按 config.example.js 创建。 */
+let REAL_CFG = null;
+try {
+  const cfgText = fs.readFileSync(path.join(__dirname, 'config.js'), 'utf8');
+  const _fakeWin = {};
+  new Function('window', cfgText)(_fakeWin);
+  REAL_CFG = _fakeWin.WORKMIN_CONFIG;
+  if (!REAL_CFG || !REAL_CFG.TODO) throw new Error('config.js 未定义 window.WORKMIN_CONFIG');
+} catch (e) {
+  console.error('FAIL: 读取 workbench/config.js 失败，请先按 config.example.js 创建 config.js ->', e.message);
+  process.exit(1);
+}
+
 /* ---- 夹具：与云端一致的真实样例数据 ---- */
 const dealers = [
   {id:'d1', 经销商名称:'苏州恒隆食品商贸',负责人:'周敏',分级:'A类核心',本月订货金额:186000,当前库存件数:420,库存可售天数:12,待回款金额:46000,回款状态:'逾期',回款截止日:'2026-10-05',陈列是否达标:'达标',费用核销状态:'待核销',拜访记录:'10/07 到店',备注:''},
@@ -178,6 +193,7 @@ const win = dom.window;
 
 /* 注入 mock db（页面启动时读取 window.db） */
 const calls = { query: 0, add: 0, update: 0 };
+win.WORKMIN_CONFIG = REAL_CFG;
 win.__SMART_PAGE__ = { database: {
   query: function (a) {
     calls.query++;
@@ -775,6 +791,7 @@ function offlineTest() {
            '诊断能区分注入脚本在不在页面中（排除脚本加载失败）', probe2.textContent);
         /* 模拟平台 SDK 晚到：此刻才注入 */
         win2.__SMART_PAGE__ = { database: win.__SMART_PAGE__.database };
+        win2.WORKMIN_CONFIG = REAL_CFG;
         rb2.click();
         setTimeout(function () {
           ok(/连上数据表/.test($2('toast').textContent),

@@ -6,3 +6,6 @@ workbench/tmp/
 
 # 已归档的确认用预览页
 workbench/_archive/
+
+# 本地私有配置（含真实资料库 ID，不公开）
+workbench/config.js

@@ -1,0 +1,2617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>海哥的多线作战台</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;background:#F7F7F5;color:#2C2C2A;line-height:1.6;font-size:14px;padding-bottom:env(safe-area-inset-bottom)}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+.card{background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:16px;margin-bottom:16px}
+.hd{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+h1{font-size:18px;font-weight:600;letter-spacing:-.2px}
+.sub{font-size:13px;color:#6B6A66;margin-top:2px}
+h2{font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px}
+h2 svg{width:16px;height:16px;flex-shrink:0}
+.hint{font-size:12px;color:#8A8985;font-weight:400}
+.btn{min-height:44px;padding:0 16px;border:1px solid rgba(0,0,0,0.12);background:#fff;border-radius:8px;font-size:14px;font-family:inherit;cursor:pointer;color:#2C2C2A;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn:active{background:#F1EFE8}
+.btn svg{width:16px;height:16px}
+.btn-p{background:#185FA5;border-color:#185FA5;color:#fff}
+.btn-p:active{background:#0C447C}
+.btn-sm{min-height:36px;padding:0 12px;font-size:13px;border-radius:6px}
+.iconbtn{min-width:44px;min-height:44px;border:1px solid rgba(0,0,0,0.12);background:#fff;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#5F5E5A}
+.iconbtn svg{width:18px;height:18px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.stat{background:#F1EFE8;border-radius:10px;padding:12px}
+.stat .k{font-size:12px;color:#6B6A66}
+.stat .v{font-size:24px;font-weight:600;line-height:1.2;margin-top:2px}
+.stat .v.red{color:#A32D2D}.stat .v.amb{color:#854F0B}
+.todo{display:flex;align-items:flex-start;gap:10px;padding:10px;border-radius:8px;margin-bottom:6px;border-left:3px solid #B4B2A9;background:#FAFAF8}
+.todo.od{background:#FCEBEB;border-left-color:#E24B4A}
+.todo.dn{opacity:.5}
+.todo.dn .tt{text-decoration:line-through}
+.dot{width:8px;height:8px;border-radius:50%;margin-top:7px;flex-shrink:0}
+.tbody{flex:1;min-width:0}
+.tt{font-size:14px;font-weight:500}
+.tm{font-size:12px;color:#8A8985;margin-top:2px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tag{font-size:11px;padding:1px 7px;border-radius:10px;background:#F1EFE8;color:#5F5E5A;white-space:nowrap}
+.odl{color:#A32D2D;font-weight:500}
+.tb{width:100%;border-collapse:collapse;font-size:13px}
+.tb th{text-align:left;font-size:12px;color:#6B6A66;font-weight:500;padding:8px 6px;border-bottom:1px solid rgba(0,0,0,0.1)}
+.tb td{padding:10px 6px;border-bottom:1px solid rgba(0,0,0,0.06);vertical-align:middle}
+.tb tr:last-child td{border-bottom:0}
+.nm{font-weight:500}
+.cells{display:none}
+.badge{font-size:11px;padding:2px 8px;border-radius:10px;white-space:nowrap;display:inline-block}
+.b-od{background:#FCEBEB;color:#A32D2D}
+.b-warn{background:#FAEEDA;color:#854F0B}
+.b-ok{background:#EAF3DE;color:#3B6D11}
+.b-info{background:#E6F1FB;color:#185FA5}
+.pf{margin-bottom:12px}
+.pfh{display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:5px}
+.pfh .pn{font-weight:500;display:flex;align-items:center;gap:6px}
+.bar{height:6px;background:#F1EFE8;border-radius:3px;overflow:hidden}
+.bar i{display:block;height:6px;border-radius:3px}
+#tabs{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding:8px 0 4px;position:sticky;top:0;background:#F7F7F5;z-index:9}
+#tabs button{min-height:40px;padding:0 14px;border-radius:8px;font-size:14px;font-family:inherit;cursor:pointer;white-space:nowrap;border:0.5px solid var(--color-border-tertiary,rgba(0,0,0,.12));background:#fff;color:#5F5E5A;flex-shrink:0}
+#tabs button.on{font-weight:500}
+.pjhead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.pjname{font-size:17px;font-weight:500;margin-bottom:2px}
+.pjdesc{font-size:13px;color:#6B6A66}
+.bar{height:6px;background:#F1EFE8;border-radius:3px;overflow:hidden;margin-top:12px}
+.bar i{display:block;height:6px;border-radius:3px}
+/* W5 学科成绩三块卡 */
+.sc3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.sc3 .sc{border:1px solid #E8E6DF;border-radius:12px;padding:14px 15px;background:#FCFCFA;
+  cursor:pointer;text-align:left;transition:box-shadow .15s,border-color .15s;width:100%;font:inherit}
+.sc3 .sc:hover{border-color:#C9C6BC;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.sc3 .sc .k{font-size:12px;color:#6B6A66;display:flex;align-items:center;justify-content:space-between}
+.sc3 .sc .v{font-size:26px;font-weight:600;margin:4px 0 2px;line-height:1.15}
+.sc3 .sc .n{font-size:12px;color:#8A8985;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc3 .sc .d{font-size:11px;color:#B4B2A9;margin-top:2px}
+.sc3 .sc.empty .v{font-size:15px;color:#B4B2A9;font-weight:500}
+.sc3 .sc .more{font-size:11px;color:#185FA5}
+/* 成绩浮窗 */
+.mask{position:fixed;inset:0;background:rgba(44,44,42,.42);z-index:900;display:none;
+  align-items:center;justify-content:center;padding:20px}
+.mask.on{display:flex}
+.mdl{background:#fff;border-radius:14px;width:100%;max-width:560px;max-height:86vh;overflow:auto;
+  box-shadow:0 18px 50px rgba(0,0,0,.22)}
+.mdl .mhd{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:16px 18px;border-bottom:1px solid #EFEDE6;position:sticky;top:0;background:#fff;z-index:2}
+.mdl .mhd .t{font-size:15px;font-weight:600}
+.mdl .mhd .x{border:none;background:#F1EFE8;border-radius:8px;width:30px;height:30px;cursor:pointer;
+  font-size:15px;color:#5F5E5A;line-height:1}
+.mdl .mhd .x:hover{background:#E8E6DF}
+.mdl .mbody{padding:16px 18px 20px}
+.mdl .sec{font-size:12px;color:#8A8985;margin:14px 0 8px;font-weight:600}
+.mdl .sec:first-child{margin-top:0}
+.srow{display:flex;align-items:baseline;gap:10px;padding:9px 0;border-bottom:1px dashed #EFEDE6;font-size:13px}
+.srow:last-child{border-bottom:none}
+.srow .sv{font-size:17px;font-weight:600;min-width:52px;text-align:right;flex-shrink:0}
+.srow .sn{flex:1;min-width:0}
+.srow .sd{font-size:11px;color:#B4B2A9;flex-shrink:0}
+.srow .sb{font-size:11px;color:#8A8985;width:100%;padding-left:62px;margin-top:-4px}
+.mform{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.mform .full{grid-column:1/-1}
+.mform .fld label{display:block;font-size:11px;color:#8A8985;margin-bottom:3px}
+.mform .fld .inp{width:100%;font-size:14px}
+.mform .row{grid-column:1/-1;display:flex;gap:8px}
+.mempty{font-size:12.5px;color:#8A8985;padding:10px 0}
+@media(max-width:640px){
+  .sc3{grid-template-columns:1fr}
+  .mform{grid-template-columns:1fr}
+}
+.rk{display:flex;align-items:center;gap:8px;padding:7px 0;font-size:13px}
+.rk .no{width:20px;height:20px;border-radius:4px;background:#F1EFE8;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#5F5E5A}
+.rk .nm{width:130px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rk .bw{flex:1;min-width:40px;height:14px;background:#F1EFE8;border-radius:3px;overflow:hidden}
+.rk .bw i{display:block;height:14px;border-radius:3px}
+.rk .vl{width:82px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums}
+.lgd{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:#6B6A66;margin-bottom:10px}
+.lgd span{display:inline-flex;align-items:center;gap:5px}
+.lgd i{width:8px;height:8px;border-radius:2px;display:inline-block}
+@media(max-width:768px){
+ .rk .nm{width:84px;font-size:12px}
+ .rk .vl{width:66px;font-size:12px}
+}
+.fld{margin-bottom:10px}
+.fld label{display:block;font-size:12px;color:#6B6A66;margin-bottom:4px}
+.inp,select,textarea{width:100%;min-height:44px;padding:9px 11px;border:1px solid rgba(0,0,0,0.14);border-radius:8px;font-size:16px;font-family:inherit;background:#fff;color:#2C2C2A}
+.inp:focus,select:focus,textarea:focus{outline:2px solid rgba(24,95,165,.25);border-color:#185FA5}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sync{font-size:12px;color:#6B6A66;display:inline-flex;align-items:center;gap:5px}
+.sync .sdot{width:7px;height:7px;border-radius:50%;background:#639922}
+.mb{display:none;margin-top:12px;padding-top:14px;border-top:1px dashed rgba(0,0,0,0.12)}
+.mb.open{display:block}
+.empty{text-align:center;padding:22px 10px;color:#8A8985;font-size:13px}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#2C2C2A;color:#fff;font-size:13px;padding:9px 16px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:999;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
+.toast.show{opacity:1}
+@media(max-width:768px){
+ .wrap{padding:12px}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .tb{display:none}
+ .cells{display:block}
+ .cell{background:#FAFAF8;border-radius:8px;padding:10px;margin-bottom:8px}
+ .cell .cr{display:flex;justify-content:space-between;gap:8px;font-size:12px;padding:3px 0}
+ .cell .cr b{font-weight:500;color:#5F5E5A}
+ .g2{grid-template-columns:1fr}
+}
+
+.subnav{display:flex;gap:6px;margin:2px 0 14px;flex-wrap:wrap}
+.subnav button{font-size:13px;padding:6px 12px;border-radius:7px;border:1px solid rgba(0,0,0,.1);background:#fff;color:#5F5E5A;min-height:34px;cursor:pointer;font-family:inherit}
+.subnav button.on{background:#185FA5;color:#fff;border-color:#185FA5;font-weight:500}
+.filt{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.filt select{font-size:16px;padding:6px 8px;border-radius:7px;border:1px solid rgba(0,0,0,.12);background:#fff;min-height:34px}
+.ckrow{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;background:#FAFAF8;margin-bottom:6px;border-left:3px solid #B4B2A9}
+.prof{display:block;padding:12px;border-radius:10px;background:#FAFAF8;margin-bottom:10px;border-left:3px solid #B4B2A9}
+.ckrow.done{border-left-color:#0F6E56}
+.ckt{font-size:12px;color:#8A8985;width:78px;flex-shrink:0}
+.ckn{flex:1;font-size:13px}
+.ckb{width:24px;height:24px;border-radius:6px;border:1.5px solid #B4B2A9;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;min-height:24px}
+.ckb.on{background:#0F6E56;border-color:#0F6E56}
+.ckb svg{width:14px;height:14px;stroke:#fff;stroke-width:3;fill:none;opacity:0}
+.ckb.on svg{opacity:1}
+.skug{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:8px;margin-top:6px}
+.skuc{border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:9px 10px;font-size:13px;background:#fff}
+.skuc .kt{font-weight:500;margin-bottom:2px}
+.kpirow{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid rgba(0,0,0,.05);font-size:13px}
+.kpin{width:96px;flex-shrink:0}
+.kpib{flex:1;min-width:60px;height:8px;background:#F1EFE8;border-radius:4px;overflow:hidden}
+.kpib i{display:block;height:100%;border-radius:4px}
+.kpis{width:52px;text-align:right;flex-shrink:0;font-weight:500}
+.sec{font-size:13px;font-weight:500;margin:16px 0 8px}
+@media(max-width:768px){
+  .skug{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+  .ckt{width:66px;font-size:11px}
+  .kpin{width:78px;font-size:12px}
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hd">
+  <div>
+    <h1>海哥的多线作战台</h1>
+    <div class="sub">旺旺膨化 · AI小游戏 · 海外TikTok · 六爻抖音 · 孩子作业</div>
+  </div>
+  <div class="row">
+    <span class="sync" id="sync"><span class="sdot"></span><span id="syncTx">已同步</span></span>
+    <button class="iconbtn" id="btnExport" title="导出 JSON 备份" aria-label="导出备份"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 19h16"/></svg></button>
+    <button class="iconbtn" id="btnImport" title="导入恢复" aria-label="导入恢复"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M4 19h16"/></svg></button>
+  </div>
+</div>
+<input type="file" id="fileImp" accept="application/json" style="display:none">
+
+<nav id="tabs"></nav>
+
+<div id="tabToday">
+<div class="card">
+  <div class="hd">
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>今天要处理</h2>
+    <span class="hint" id="todayHint" data-sp-bindable="database" data-sp-database-id="1gQHCbHHyZIFJDGIrzyWrJ"></span>
+  </div>
+  <div id="todoList" data-sp-bindable="database" data-sp-database-id="1gQHCbHHyZIFJDGIrzyWrJ"></div>
+  <div class="row" style="margin-top:10px">
+    <button class="btn btn-p btn-sm" id="btnAddTodo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>新增待办</button>
+    <button class="btn btn-sm" id="btnPostpone">全部顺延到今天</button>
+  </div>
+  <div class="mb" id="mbTodo">
+    <div class="fld"><label>事项</label><input class="inp" id="tTitle" placeholder="例如：跟进恒隆回款"></div>
+    <div class="g2">
+      <div class="fld"><label>所属工作线</label><select id="tLine"></select></div>
+      <div class="fld"><label>优先级</label><select id="tPri"></select></div>
+    </div>
+    <div class="g2">
+      <div class="fld"><label>截止日期</label><input class="inp" type="date" id="tDue"></div>
+      <div class="fld"><label>目标数量</label><input class="inp" type="number" id="tGoal" value="1" min="1"></div>
+    </div>
+    <div class="row"><button class="btn btn-p" id="tSave">保存</button><button class="btn" id="tCancel">取消</button></div>
+  </div>
+</div>
+</div>
+
+<div id="tabProj" style="display:none">
+<div class="card">
+  <div class="hd">
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg>项目进度总览</h2>
+    <span class="hint">全部工作线</span>
+  </div>
+  <div id="projList" data-sp-bindable="database" data-sp-database-id="1gQHCbHHyZIFJDGIrzyWrJ"></div>
+  <div class="row" style="margin-top:10px">
+    <button class="btn btn-p btn-sm" id="btnAddProj"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>新增里程碑</button>
+  </div>
+  <div class="mb" id="mbProj">
+    <div class="fld"><label>里程碑</label><input class="inp" id="pTitle" placeholder="例如：TikTok 起号跑通模型"></div>
+    <div class="fld"><label>所属工作线</label><select id="pLine"></select></div>
+    <div class="g2">
+      <div class="fld"><label>当前进度</label><input class="inp" type="number" id="pNow" value="0"></div>
+      <div class="fld"><label>目标数</label><input class="inp" type="number" id="pGoal" value="100"></div>
+    </div>
+    <div class="fld"><label>截止日期</label><input class="inp" type="date" id="pDue"></div>
+    <div class="row"><button class="btn btn-p" id="pSave">保存</button><button class="btn" id="pCancel">取消</button></div>
+  </div>
+</div>
+</div>
+
+<div id="tabProject" style="display:none">
+<div class="card" id="pjHead"></div>
+<div class="stats" id="pjStats" data-sp-bindable="database" data-sp-database-id="cHPTKdlZZXnjPrU1Y9C9FS"></div>
+
+<div class="card">
+  <div class="hd"><h2 id="pjStatTitle" style="display:flex;align-items:center;gap:8px"></h2><span class="hint" id="pjStatHint"></span></div>
+  <div id="pjStatBox"></div>
+</div>
+
+<div id="wwBlocks" style="display:none">
+<div class="card">
+  <div class="hd"><h2 style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>信息录入</h2><span class="hint">语音 / 文字 · 存进随手记</span></div>
+  <div id="wwNoteBox" data-sp-bindable="database" data-sp-database-id="PouGOpqFGDOBIEayNHdayk"></div>
+</div>
+<div class="card">
+  <div class="hd"><h2 style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>每日打卡</h2><span class="hint">8:30 上班卡 → 17:30 下班卡</span></div>
+  <div id="wwCheckBox" data-sp-bindable="database" data-sp-database-id="2oiXI7NgV4T56mTqDJgaNu"></div>
+</div>
+<div class="card">
+  <div class="hd"><h2 style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>客户档案</h2><span class="hint">订货日期 · 产品 · 数量 · 金额 · 在卖 SKU</span></div>
+  <div id="wwCustBox" data-sp-bindable="database" data-sp-database-id="JTZew6TvIp5hG4EKe71u5L"></div>
+</div>
+</div>
+
+<div class="card">
+  <div class="hd"><h2 id="pjListTitle" style="display:flex;align-items:center;gap:8px"></h2><span class="hint" id="pjListHint"></span></div>
+  <div id="pjTodoList" data-sp-bindable="database" data-sp-database-id="1gQHCbHHyZIFJDGIrzyWrJ"></div>
+</div>
+</div>
+
+</div>
+
+<div style="text-align:center;font-size:12px;color:#8A8985;padding:8px 0 20px">
+  本工作台通过 WorkBuddy 资料库搭建 · 数据云端存储 · 多设备自动同步
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- 学科成绩浮窗：W5 头部三块卡点击后弹出 -->
+<div class="mask" id="scoreMask">
+  <div class="mdl" id="scoreMdl" role="dialog" aria-modal="true"></div>
+</div>
+<script>
+(function(){
+"use strict";
+
+var LINES = {
+  '旺旺膨化':   {c:'#185FA5', bg:'#E6F1FB'},
+  '旺旺主业':   {c:'#185FA5', bg:'#E6F1FB'},
+  'AI小游戏':   {c:'#534AB7', bg:'#EEEDFE'},
+  '海外TikTok': {c:'#0F6E56', bg:'#E1F5EE'},
+  '六爻抖音':   {c:'#854F0B', bg:'#FAEEDA'},
+  '孩子作业':   {c:'#3B6D11', bg:'#EAF3DE'}
+};
+
+var db = (window.__SMART_PAGE__ && window.__SMART_PAGE__.database) ? window.__SMART_PAGE__.database : null;
+var SCHEMA = {todo:[]};
+var cache = {todos:[], months:[], orders:[], skus:[], kpis:[], checks:[], hw:[], wrong:[], notes:[], cust:[], logs:[], scores:[]};
+var online = !!db;
+
+/* 运行期错误留痕：SDK 注入脚本若执行报错，这里能抓到（不清 console，只记录） */
+var __errs=[];
+try{
+  window.addEventListener('error', function(e){
+    __errs.push(String((e&&e.message)||e)); if(__errs.length>6) __errs.shift();
+  });
+  window.addEventListener('unhandledrejection', function(e){
+    __errs.push('Promise: '+String((e&&e.reason&&e.reason.message)||(e&&e.reason)||e));
+    if(__errs.length>6) __errs.shift();
+  });
+}catch(_e0){}
+
+/* ===== SDK 连接自愈 =====
+   平台 inject.js 理论上先于页面脚本执行，但实测存在取不到的情况（iframe 预热、异步注入）。
+   一旦开头没拿到就永远离线，所有写库都会静默失败。这里做三层兜底：
+   1) getDb() 惰性再取一次 —— 任何时刻调用都可能拿到后来才注入的 SDK
+   2) waitForDb() 轮询等待 —— init 前先等一段时间
+   3) autoReconnect() 后台轮询 —— 已经进入离线后仍能自动恢复
+   另外 sdkDiag() 把 window.__SMART_PAGE__ 的真实状态暴露到界面，便于定位。 */
+function getDb(){
+  try{ return (window.__SMART_PAGE__ && window.__SMART_PAGE__.database) || null; }
+  catch(_e){ return null; }
+}
+function ensureDb(){ if(!db) db = getDb(); return db; }
+function waitForDb(maxMs, step){
+  return new Promise(function(res){
+    var t0 = Date.now();
+    (function tick(){
+      var d = getDb();
+      if(d){ db = d; online = true; return res(true); }
+      if(Date.now() - t0 >= (maxMs||8000)) return res(false);
+      setTimeout(tick, step||150);
+    })();
+  });
+}
+/* 离线后继续后台探活，一旦连上自动拉数据并刷新（无需用户刷新页面） */
+var reconnTimer = null;
+function autoReconnect(rounds){
+  if(reconnTimer) return;
+  var left = rounds || 100;   // 每 2 秒一次，约 3 分钟
+  reconnTimer = setInterval(function(){
+    var d = getDb();
+    if(!d){ left--; if(left<=0){ clearInterval(reconnTimer); reconnTimer=null; } return; }
+    clearInterval(reconnTimer); reconnTimer=null;
+    db = d; online = true;
+    setSync('同步中');
+    fetchData().then(function(){
+      setSync('已同步');
+      toast('已重新连上数据表');
+      refreshAll();
+    }, function(){ setSync('离线模式'); refreshAll(); });
+  }, 2000);
+}
+/* 诊断：把 SDK 挂载状态说清楚 */
+function sdkDiag(){
+  var sp = null;
+  try{ sp = window.__SMART_PAGE__; }catch(_e){}
+  if(!sp) return '__SMART_PAGE__ 不存在';
+  var keys = [];
+  try{ keys = Object.keys(sp); }catch(_e){}
+  if(!sp.database) return '__SMART_PAGE__ 存在但无 database（keys: '+(keys.join(',')||'空')+'）';
+  return 'SDK 已连接';
+}
+/* 深度诊断：区分「打开方式不对」/「脚本没加载」/「脚本报错」三种情况 */
+function sdkProbe(){
+  var p=[];
+  try{ p.push('地址：'+String(location.href).slice(0,90)); }catch(_e){}
+  try{ p.push('协议：'+location.protocol); }catch(_e){}
+  var inFrame=false;
+  try{ inFrame = (window.top !== window.self); }catch(_e){ inFrame=true; }
+  p.push(inFrame?'容器：内嵌(iframe，符合平台沙箱预期)':'容器：独立窗口(顶层文档，平台不会在此注入 SDK)');
+  var inj=null;
+  try{ Array.prototype.slice.call(document.scripts||[]).forEach(function(s){ if((s.src||'').indexOf('page_comm/inject.js')>=0) inj=s; }); }catch(_e){}
+  p.push('注入脚本：'+(inj ? '已在页面中' : '页面里找不到'));
+  if(inj){ p.push('加载状态：'+(inj.readyState||'已就绪')); }
+  p.push('__SMART_PAGE__：'+(window.__SMART_PAGE__ ? '已挂载' : '未挂载'));
+  if(__errs.length) p.push('页面报错：'+__errs[__errs.length-1]);
+  return p.filter(Boolean).join(' · ');
+}
+
+/* ===== 工具层 ===== */
+function $(id){ return document.getElementById(id); }
+function el(tag, cls, tx){ var n=document.createElement(tag); if(cls)n.className=cls; if(tx!=null)n.textContent=tx; return n; }
+/* 日期归一：云端可能返回 2026-10-09 / 2026-10-09T00:00:00Z / 时间戳，统一成 YYYY-MM-DD */
+function dayKey(v){
+  var s=String(v==null?'':v).trim();
+  if(!s) return '';
+  var m=s.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if(m) return m[1]+'-'+m[2]+'-'+m[3];
+  var d=new Date(isNaN(Number(s))?s:Number(s));
+  return isNaN(d.getTime())?s.slice(0,10):ymd(d);
+}
+function toast(msg){
+  var t=$('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); },2200);
+}
+function ymd(d){
+  var m=String(d.getMonth()+1); if(m.length<2)m='0'+m;
+  var day=String(d.getDate()); if(day.length<2)day='0'+day;
+  return d.getFullYear()+'-'+m+'-'+day;
+}
+function parseYmd(s){
+  if(!s) return null;
+  var p=String(s).slice(0,10).split('-');
+  if(p.length<3) return null;
+  var d=new Date(+p[0], +p[1]-1, +p[2]);
+  return isNaN(d.getTime())?null:d;
+}
+/* 相对今天的天数差：负数=已过期 */
+function dayDiff(dateStr){
+  var d=parseYmd(dateStr); if(!d) return null;
+  var now=new Date(); now.setHours(0,0,0,0);
+  return Math.round((d.getTime()-now.getTime())/86400000);
+}
+function fmtDue(dateStr){
+  var diff=dayDiff(dateStr);
+  if(diff===null) return '无期限';
+  if(diff<0) return '逾期 '+Math.abs(diff)+' 天';
+  if(diff===0) return '今天到期';
+  if(diff===1) return '明天到期';
+  return diff+' 天后';
+}
+function fmtMoney(n){
+  var v=Number(n)||0;
+  return '¥'+v.toLocaleString('zh-CN');
+}
+/* 离线缓存 key 前缀（localStorage） */
+var LS='ww_want_';
+function localCache(key, val){
+  try{
+    if(val===undefined) return JSON.parse(localStorage.getItem(LS+key)||'null');
+    localStorage.setItem(LS+key, JSON.stringify(val));
+  }catch(e){ return null; }
+  return null;
+}
+function setSync(state){
+  var dot=$('sync').querySelector('.sdot'), tx=$('syncTx');
+  var map={'已同步':['#639922','已同步'],'同步中':['#EF9F27','同步中'],'离线模式':['#B4B2A9','离线模式']};
+  var m=map[state]||map['已同步'];
+  dot.style.background=m[0]; tx.textContent=m[1];
+}
+
+/* ===== 数据层（唯一读写数据库的地方） ===== */
+/* databaseId 按 SDK 约定硬编码为字面量 */
+var TODO_DB   = '1gQHCbHHyZIFJDGIrzyWrJ';
+var NOTE_DB   = 'PouGOpqFGDOBIEayNHdayk';
+var CUST_DB   = '2bxBhhbZrbFGfZORlNNkE7';
+var LOG_DB    = 'X0WZ2bOXpqAHT5HEZjhMNS';
+var SCORE_DB  = 'YoQVogNYLTo7jyDH5aULAv';
+var SCORE_SUBJECTS = ['语文','数学','英语'];
+
+function loadTodoAll(cursor, acc, guard){
+  acc=acc||[]; guard=guard||0;
+  if(guard>100) return Promise.resolve(acc);
+  return db.query({databaseId:'1gQHCbHHyZIFJDGIrzyWrJ', pageSize:200, startCursor:cursor})
+    .then(function(r){
+      acc=acc.concat(r.results||[]);
+      var next=r.nextCursor;
+      if(r.hasMore && next && next!==cursor && (r.results||[]).length){
+        return loadTodoAll(next, acc, guard+1);
+      }
+      return acc;
+    })
+    .catch(function(e){ console.error('[data] 待办分页查询失败:', e); throw e; });
+}
+function loadNoteAll(cursor, acc, guard){
+  acc=acc||[]; guard=guard||0;
+  if(guard>100) return Promise.resolve(acc);
+  return db.query({databaseId:'PouGOpqFGDOBIEayNHdayk', pageSize:200, startCursor:cursor})
+    .then(function(r){
+      acc=acc.concat(r.results||[]);
+      var next=r.nextCursor;
+      if(r.hasMore && next && next!==cursor && (r.results||[]).length){
+        return loadNoteAll(next, acc, guard+1);
+      }
+      return acc;
+    })
+    .catch(function(e){ console.error('[data] 随手记分页查询失败:', e); throw e; });
+}
+function loadLogAll(cursor, acc, guard){
+  acc=acc||[]; guard=guard||0;
+  if(guard>100) return Promise.resolve(acc);
+  return db.query({databaseId:'X0WZ2bOXpqAHT5HEZjhMNS', pageSize:200, startCursor:cursor})
+    .then(function(r){
+      acc=acc.concat(r.results||[]);
+      var next=r.nextCursor;
+      if(r.hasMore && next && next!==cursor && (r.results||[]).length){
+        return loadLogAll(next, acc, guard+1);
+      }
+      return acc;
+    })
+    .catch(function(e){ console.error('[data] 修改日志分页查询失败:', e); throw e; });
+}
+function loadCustAll(cursor, acc, guard){
+  acc=acc||[]; guard=guard||0;
+  if(guard>100) return Promise.resolve(acc);
+  return db.query({databaseId:'2bxBhhbZrbFGfZORlNNkE7', pageSize:200, startCursor:cursor})
+    .then(function(r){
+      acc=acc.concat(r.results||[]);
+      var next=r.nextCursor;
+      if(r.hasMore && next && next!==cursor && (r.results||[]).length){
+        return loadCustAll(next, acc, guard+1);
+      }
+      return acc;
+    })
+    .catch(function(e){ console.error('[data] 客户档案分页查询失败:', e); throw e; });
+}
+
+function loadMonthAll(cursor, acc, guard){
+  acc=acc||[]; guard=guard||0;
+  if(guard>100) return Promise.resolve(acc);
+  return db.query({databaseId:'cHPTKdlZZXnjPrU1Y9C9FS', pageSize:200, startCursor:cursor})
+    .then(function(r){
+      acc=acc.concat(r.results||[]);
+      var next=r.nextCursor;
+      if(r.hasMore && next && next!==cursor && (r.results||[]).length){
+        return loadMonthAll(next, acc, guard+1);
+      }
+      return acc;
+    })
+    .catch(function(e){ console.error('[data] 月度统计分页查询失败:', e); throw e; });
+}
+
+function loadOrderAll(cursor, acc, guard){
+  acc=acc||[]; guard=guard||0;
+  if(guard>100) return Promise.resolve(acc);
+  return db.query({databaseId:'JTZew6TvIp5hG4EKe71u5L', pageSize:200, startCursor:cursor})
+    .then(function(r){
+      acc=acc.concat(r.results||[]);
+      var next=r.nextCursor;
+      if(r.hasMore && next && next!==cursor && (r.results||[]).length){
+        return loadOrderAll(next, acc, guard+1);
+      }
+      return acc;
+    })
+    .catch(function(e){ console.error('[data] 分页查询失败:', e); throw e; });
+}
+function loadSkuAll(cursor, acc, guard){
+  acc=acc||[]; guard=guard||0;
+  if(guard>100) return Promise.resolve(acc);
+  return db.query({databaseId:'U3laEMDAkPXA2z8roktris', pageSize:200, startCursor:cursor})
+    .then(function(r){
+      acc=acc.concat(r.results||[]);
+      var next=r.nextCursor;
+      if(r.hasMore && next && next!==cursor && (r.results||[]).length){
+        return loadSkuAll(next, acc, guard+1);
+      }
+      return acc;
+    })
+    .catch(function(e){ console.error('[data] 分页查询失败:', e); throw e; });
+}
+function loadKpiAll(cursor, acc, guard){
+  acc=acc||[]; guard=guard||0;
+  if(guard>100) return Promise.resolve(acc);
+  return db.query({databaseId:'bLlwFhzcQklJq9WJJmyoKg', pageSize:200, startCursor:cursor})
+    .then(function(r){
+      acc=acc.concat(r.results||[]);
+      var next=r.nextCursor;
+      if(r.hasMore && next && next!==cursor && (r.results||[]).length){
+        return loadKpiAll(next, acc, guard+1);
+      }
+      return acc;
+    })
+    .catch(function(e){ console.error('[data] 分页查询失败:', e); throw e; });
+}
+function loadCheckAll(cursor, acc, guard){
+  acc=acc||[]; guard=guard||0;
+  if(guard>100) return Promise.resolve(acc);
+  return db.query({databaseId:'2oiXI7NgV4T56mTqDJgaNu', pageSize:200, startCursor:cursor})
+    .then(function(r){
+      acc=acc.concat(r.results||[]);
+      var next=r.nextCursor;
+      if(r.hasMore && next && next!==cursor && (r.results||[]).length){
+        return loadCheckAll(next, acc, guard+1);
+      }
+      return acc;
+    })
+    .catch(function(e){ console.error('[data] 分页查询失败:', e); throw e; });
+}
+
+function loadHwAll(cursor, acc, guard){
+  acc=acc||[]; guard=guard||0;
+  if(guard>100) return Promise.resolve(acc);
+  return db.query({databaseId:'asDeaPvz40oBo1xhdsaCHW', pageSize:200, startCursor:cursor})
+    .then(function(r){
+      acc=acc.concat(r.results||[]);
+      var next=r.nextCursor;
+      if(r.hasMore && next && next!==cursor && (r.results||[]).length){
+        return loadHwAll(next, acc, guard+1);
+      }
+      return acc;
+    })
+    .catch(function(e){ console.error('[data] 分页查询失败:', e); throw e; });
+}
+/* 学科成绩（W5 头部三块科目卡 + 浮窗列表的数据源） */
+function loadScoreAll(cursor, acc, guard){
+  acc=acc||[]; guard=guard||0;
+  if(guard>100) return Promise.resolve(acc);
+  return db.query({databaseId:'YoQVogNYLTo7jyDH5aULAv', pageSize:200, startCursor:cursor})
+    .then(function(r){
+      acc=acc.concat(r.results||[]);
+      var next=r.nextCursor;
+      if(r.hasMore && next && next!==cursor && (r.results||[]).length){
+        return loadScoreAll(next, acc, guard+1);
+      }
+      return acc;
+    })
+    .catch(function(e){ console.error('[data] 成绩分页查询失败:', e); throw e; });
+}
+function loadWrongAll(cursor, acc, guard){
+  acc=acc||[]; guard=guard||0;
+  if(guard>100) return Promise.resolve(acc);
+  return db.query({databaseId:'wMf3x6Z4PJFl30mAM0Ze4r', pageSize:200, startCursor:cursor})
+    .then(function(r){
+      acc=acc.concat(r.results||[]);
+      var next=r.nextCursor;
+      if(r.hasMore && next && next!==cursor && (r.results||[]).length){
+        return loadWrongAll(next, acc, guard+1);
+      }
+      return acc;
+    })
+    .catch(function(e){ console.error('[data] 分页查询失败:', e); throw e; });
+}
+
+function readSchemas(){
+  if(!ensureDb()) return Promise.resolve();
+  setSync('同步中');
+  return Promise.all([
+    db.getSchema({databaseId:'1gQHCbHHyZIFJDGIrzyWrJ'})
+      .then(function(s){ SCHEMA.todo=s.properties||[]; })
+      .catch(function(e){ console.error('[schema] 待办表结构加载失败:', e); })
+  ]);
+}
+function fetchData(){
+  if(!ensureDb()) return Promise.resolve();
+  return Promise.all([loadTodoAll(), loadMonthAll(),
+                      loadOrderAll(), loadSkuAll(), loadKpiAll(), loadCheckAll(),
+                      loadHwAll(), loadWrongAll(), loadNoteAll(), loadCustAll(), loadLogAll(), loadScoreAll()])
+    .then(function(r){
+      cache.todos=r[0]||[];
+      cache.months=r[1]||[];
+      cache.orders=r[2]||[];
+      cache.skus=r[3]||[];
+      cache.kpis=r[4]||[];
+      cache.checks=r[5]||[];
+      cache.hw=r[6]||[];
+      cache.wrong=r[7]||[];
+      cache.notes=r[8]||[];
+      cache.cust=r[9]||[];
+      cache.logs=r[10]||[];
+      cache.scores=r[11]||[];
+      localCache('todos', cache.todos);
+      localCache('months', cache.months);
+      localCache('orders', cache.orders);
+      localCache('skus', cache.skus);
+      localCache('kpis', cache.kpis);
+      localCache('checks', cache.checks);
+      localCache('hw', cache.hw);
+      localCache('wrong', cache.wrong);
+      localCache('notes', cache.notes);
+      localCache('cust', cache.cust);
+      localCache('logs', cache.logs);
+      localCache('scores', cache.scores);
+      setSync('已同步');
+    })
+    .catch(function(e){
+      console.error('[data] 加载失败，转离线模式:', e);
+      cache.todos=localCache('todos')||[];
+      cache.months=localCache('months')||[];
+      cache.orders=localCache('orders')||[];
+      cache.skus=localCache('skus')||[];
+      cache.kpis=localCache('kpis')||[];
+      cache.checks=localCache('checks')||[];
+      cache.hw=localCache('hw')||[];
+      cache.wrong=localCache('wrong')||[];
+      cache.notes=localCache('notes')||[];
+      cache.cust=localCache('cust')||[];
+      cache.logs=localCache('logs')||[];
+  cache.scores=localCache('scores')||[];
+      setSync('离线模式');
+    });
+}
+function writeTodo(recordId, props){
+  setSync('同步中');
+  var op = recordId
+    ? db.updateRecord({databaseId:'1gQHCbHHyZIFJDGIrzyWrJ', recordId:recordId, properties:props})
+    : db.addRecord({databaseId:'1gQHCbHHyZIFJDGIrzyWrJ', properties:props});
+  return op.catch(function(e){ console.error('[todo] 写入失败:', e); setSync('离线模式'); throw e; })
+           .then(function(){ return fetchData(); });
+}
+/* 写入成功提示：离线时 offlineWrite 已提示过，不再叠加误导性「已写入」 */
+function wroteOk(cloudMsg){
+  if(!ensureDb()) return;
+  toast(cloudMsg);
+}
+/* 离线兜底写入：无 SDK（本地预览）时存 localStorage，页面立即可见 */
+function offlineWrite(kind, props){
+  var flat={};
+  Object.keys(props).forEach(function(k){
+    var v=props[k];
+    flat[k]=(v && typeof v==='object') ? (v.text!==undefined?v.text:(v.select!==undefined?v.select:(v.number!==undefined?v.number:(v.currency!==undefined?v.currency:(v.date!==undefined?v.date:v.checkbox))))) : v;
+  });
+  flat.id='local_'+Date.now();
+  cache[kind]=(cache[kind]||[]).concat([flat]);
+  localCache(kind, cache[kind]);
+  toast('当前离线模式，已存本地；在资料库页面打开可写云端');
+  return Promise.resolve();
+}
+/* 随手记写入（信息录入框） */
+function writeNote(recordId, props){
+  setSync('同步中');
+  if(!ensureDb()){ return offlineWrite('notes', props); }
+  var op = recordId
+    ? db.updateRecord({databaseId:'PouGOpqFGDOBIEayNHdayk', recordId:recordId, properties:props})
+    : db.addRecord({databaseId:'PouGOpqFGDOBIEayNHdayk', properties:props});
+  return op.catch(function(e){ console.error('[note] 写入失败:', e); setSync('离线模式'); throw e; })
+           .then(function(){ return fetchData(); });
+}
+/* 修改日志写入（不在此处触发 fetchData，由调用方统一收口） */
+function writeLog(props){
+  if(!ensureDb()){ return offlineWrite('logs', props); }
+  setSync('同步中');
+  return db.addRecord({databaseId:'X0WZ2bOXpqAHT5HEZjhMNS', properties:props})
+    .catch(function(e){ console.error('[log] 写入失败:', e); throw e; });
+}
+/* 客户主数据写入（随手记 AI 识别 / 客户档案） */
+function writeCust(recordId, props){
+  setSync('同步中');
+  if(!ensureDb()){ return offlineWrite('cust', props); }
+  var op = recordId
+    ? db.updateRecord({databaseId:'2bxBhhbZrbFGfZORlNNkE7', recordId:recordId, properties:props})
+    : db.addRecord({databaseId:'2bxBhhbZrbFGfZORlNNkE7', properties:props});
+  return op.catch(function(e){ console.error('[cust] 写入失败:', e); setSync('离线模式'); throw e; })
+           .then(function(){ return fetchData(); });
+}
+/* 订货写入（客户档案编辑面板 → 客户订货明细表） */
+function writeOrder(props){
+  setSync('同步中');
+  if(!ensureDb()){ return offlineWrite('orders', props); }
+  return db.addRecord({databaseId:'JTZew6TvIp5hG4EKe71u5L', properties:props})
+    .catch(function(e){ console.error('[order] 写入失败:', e); setSync('离线模式'); throw e; });
+}
+
+/* ===== 表单本地缓存（DSDK008）：输入防丢，成功后清除 ===== */
+var FORM_CACHE_IDS = ['tTitle','tDue','tGoal','pTitle','pDue','pNow','pGoal','nText'];
+var SELECT_CACHE_IDS = ['tLine','tPri','pLine','nTag','nCust'];
+function cacheFormInputs(){
+  FORM_CACHE_IDS.concat(SELECT_CACHE_IDS).forEach(function(id){
+    var n=$(id); if(!n) return;
+    n.addEventListener('input', scheduleCache);
+    n.addEventListener('change', scheduleCache);
+  });
+}
+var cacheTimer=null;
+function scheduleCache(){
+  if(cacheTimer) clearTimeout(cacheTimer);
+  cacheTimer=setTimeout(function(){
+    var draft={};
+    FORM_CACHE_IDS.forEach(function(id){
+      var n=$(id); if(n && n.value) draft[id]=n.value;
+    });
+    SELECT_CACHE_IDS.forEach(function(id){
+      var n=$(id); if(n && n.value) draft[id]=n.value;
+    });
+    try{ localStorage.setItem(LS+'draft', JSON.stringify(draft)); }catch(e){}
+  }, 300);
+}
+function restoreFormInputs(){
+  var draft;
+  try{ draft=JSON.parse(localStorage.getItem(LS+'draft')||'null'); }catch(e){ return; }
+  if(!draft) return;
+  FORM_CACHE_IDS.forEach(function(id){
+    var n=$(id); if(n && draft[id]) n.value=draft[id];
+  });
+  SELECT_CACHE_IDS.forEach(function(id){
+    var n=$(id); if(n && draft[id]) n.value=draft[id];
+  });
+}
+function clearFormCache(){
+  try{ localStorage.removeItem(LS+'draft'); }catch(e){}
+}
+
+
+/* ===== 项目配置（UI 区分的唯一来源） ===== */
+var PROJECTS = [
+  {key:'w1', name:'旺旺膨化', tab:'今日待办', desc:'经销商 · 订货库存回款', db:'dealer'},
+  {key:'w2', name:'AI小游戏', tab:'开发日志', desc:'半年计划 · 第 2 个月', db:'todo'},
+  {key:'w3', name:'海外TikTok', tab:'选题库', desc:'肯尼亚 · 零售批发', db:'todo'},
+  {key:'w4', name:'六爻抖音', tab:'选题库', desc:'本地号 · 冷启动', db:'todo'},
+  {key:'w5', name:'孩子作业', tab:'辅导记录', desc:'苏州小学三年级', db:'todo'}
+];
+var MONTH_DB = 'cHPTKdlZZXnjPrU1Y9C9FS';
+var STAT_DB   = 'cHPTKdlZZXnjPrU1Y9C9FS';
+var TABS = [
+  {id:'today',   label:'今天要处理', color:'#444441',  plain:true},
+  {id:'projAll',  label:'项目总览',   color:'#888780',  plain:true},
+  {id:'w1', label:'旺旺膨化', color:'#185FA5'},
+  {id:'w2', label:'AI小游戏', color:'#534AB7'},
+  {id:'w3', label:'海外TikTok', color:'#0F6E56'},
+  {id:'w4', label:'六爻抖音', color:'#854F0B'},
+  {id:'w5', label:'孩子作业', color:'#3B6D11'}
+];
+var curTab = 'today';
+
+/* ===== 计算层（纯函数） ===== */
+function todoRows(){
+  return cache.todos.map(function(t){
+    return {
+      id:t._id,
+      title:t['事项']||'(未命名)',
+      line:t['所属工作线']||'',
+      due:t['截止日期']||'',
+      pri:t['优先级']||'P2 常规',
+      done:t['完成']===true,
+      od:(function(){ var d=dayDiff(t['截止日期']); return d!==null && d<0; })(),
+      note:t['备注']||'',
+      goal:Number(t['总目标数'])||1,
+      kind:t['类型']||'待办',
+      now:Number(t['进度'])||0,
+      total:Number(t['总目标数'])||100
+    };
+  });
+}
+function computeTodayList(){
+  return todoRows().filter(function(t){
+    if(t.done || t.kind==='项目里程碑') return false;
+    var d=dayDiff(t.due);
+    return d===null ? true : d<=2;
+  }).sort(function(a,b){
+    var pa=a.pri.slice(0,2), pb=b.pri.slice(0,2);
+    if(pa!==pb) return pa<pb?-1:1;
+    if(a.od!==b.od) return a.od?-1:1;
+    return dayDiff(a.due)-dayDiff(b.due);
+  });
+}
+/* 项目 key(w1) 与数据表里的中文标签(旺旺膨化) 互转，避免两边键不一致 */
+function lineLabel(key){
+  var n='';
+  PROJECTS.forEach(function(p){ if(p.key===key) n=p.name; });
+  return n;
+}
+/* 兼容历史数据：待办表里旧记录的「所属工作线」仍写着「旺旺主业」 */
+function lineAliases(key){
+  var a=[lineLabel(key)];
+  if(key==='w1' && a.indexOf('旺旺主业')===-1) a.push('旺旺主业');
+  return a;
+}
+function computeProjectTodos(key){
+  var lbs=lineAliases(key);
+  return todoRows().filter(function(t){ return lbs.indexOf(t.line)>=0; });
+}
+function computeMilestones(){
+  return todoRows().filter(function(t){ return t.kind==='项目里程碑'; })
+    .map(function(t){
+      return {id:t.id, title:t.title, line:t.line,
+              pct: Math.max(0, Math.min(100, Math.round(t.now/t.total*100))),
+              now:t.now, total:t.total, due:t.due};
+    });
+}
+/* ===== 渲染层（互相独立，只读 cache，全部由 refreshAll 调度） ===== */
+function renderTabs(){
+  var box=$('tabs'); box.innerHTML='';
+  TABS.forEach(function(t){
+    var b=document.createElement('button');
+    b.type='button';
+    var on=t.id===curTab;
+    b.textContent=t.label;
+    b.style.borderColor = on ? t.color : '';
+    b.style.background = on ? t.color : '';
+    b.style.color = on ? '#fff' : '';
+    b.style.fontWeight = on ? '500' : '400';
+    if(on) b.className='on';
+    b.onclick=function(){ curTab=t.id; refreshAll(); };
+    box.appendChild(b);
+  });
+}
+function badgeNode(text, cls){ return el('span','badge b-'+cls, text); }
+function payNode(v){
+  if(v==='逾期') return badgeNode('逾期','od');
+  if(v==='待回款') return badgeNode('待回款','warn');
+  if(v==='已对账') return badgeNode('已对账','ok');
+  return el('span','', v||'—');
+}
+function daysNode(d){
+  var n=Number(d)||0;
+  if(n<10) return badgeNode(n+' 天','od');
+  if(n<15) return badgeNode(n+' 天','warn');
+  return badgeNode(n+' 天','ok');
+}
+function tagNode(line){
+  var g=el('span','tag', line);
+  g.style.color=(LINES[line]||{c:'#888780'}).c;
+  return g;
+}
+function buildTodoItem(item, showLine){
+  var row=el('div','todo'+(item.od?' od':'')+(item.done?' dn':''));
+  var dot=el('span','dot');
+  dot.style.background=(LINES[item.line]||{c:'#888780'}).c;
+  row.appendChild(dot);
+  var body=el('div','tbody');
+  body.appendChild(el('div','tt', item.title));
+  var meta=el('div','tm');
+  if(showLine && item.line) meta.appendChild(tagNode(item.line));
+  meta.appendChild(el('span','', item.pri));
+  meta.appendChild(el('span', item.od?'odl':'', fmtDue(item.due)));
+  if(item.goal>1) meta.appendChild(el('span','','目标 '+item.goal));
+  if(item.note) meta.appendChild(el('span','', item.note));
+  body.appendChild(meta);
+  row.appendChild(body);
+  if(!item.done){
+    var btn=el('button','btn btn-sm','完成');
+    btn.onclick=function(){
+      writeTodo(item.id, {'完成':{checkbox:true}})
+        .then(function(){ toast('已完成'); refreshAll(); }).catch(function(){ toast('保存失败'); });
+    };
+    row.appendChild(btn);
+  }
+  return row;
+}
+function renderToday(){
+  var box=$('todoList'), list=computeTodayList();
+  var odN=list.filter(function(x){return x.od;}).length;
+  $('todayHint').textContent = list.length ? (odN+' 项逾期 / 共 '+list.length+' 项') : '';
+  box.innerHTML='';
+  if(!list.length){ box.appendChild(el('div','empty','今天没有到期的待办，可以喘口气')); return; }
+  list.forEach(function(item){ box.appendChild(buildTodoItem(item, true)); });
+}
+function renderProjects(){
+  var box=$('projList'); box.innerHTML='';
+  var list=computeMilestones();
+  if(!list.length){ box.appendChild(el('div','empty','还没有里程碑，点下方「新增里程碑」')); return; }
+  list.forEach(function(p){
+    var wrap=el('div','pf');
+    var head=el('div','pfh');
+    var name=el('span','pn');
+    var d=el('span'); d.style.cssText='width:8px;height:8px;border-radius:50%;flex-shrink:0';
+    d.style.background=(LINES[p.line]||{c:'#888780'}).c;
+    name.appendChild(d); name.appendChild(el('span','',p.title));
+    head.appendChild(name);
+    head.appendChild(el('span','hint', p.pct+'% · '+p.now+'/'+p.total+' · '+fmtDue(p.due)));
+    wrap.appendChild(head);
+    var bar=el('div','bar'); var i=el('i');
+    i.style.width=p.pct+'%'; i.style.background=(LINES[p.line]||{c:'#888780'}).c;
+    bar.appendChild(i); wrap.appendChild(bar);
+    box.appendChild(wrap);
+  });
+}
+/* ===== 项目视图（三段式：头部 / 指标卡 / 信息区） ===== */
+function renderProjectView(){
+  var cfg=null;
+  PROJECTS.forEach(function(p){ if(p.key===curTab) cfg=p; });
+  if(!cfg) return;
+  var line=(LINES[cfg.name]||{c:'#888780', bg:'#F1F1EF'});
+  var list=computeProjectTodos(cfg.key);
+
+  /* 段1 · 头部 */
+  var head=$('pjHead'); head.innerHTML='';
+  var undone=list.filter(function(t){return !t.done && t.kind!=='项目里程碑';}).length;
+  var ms=list.filter(function(t){return t.kind==='项目里程碑';});
+
+  /* W5：取消通用「项目进度头部」（名称/整体进度%/进度条），头部只保留三块科目成绩卡 */
+  if(cfg.key!=='w5'){
+    var top=el('div','pjhead');
+    var l=el('div');
+    var nm=el('div','pjname', cfg.key==='w1' ? '旺旺膨化-苏州所' : cfg.name); nm.style.color=line.c;
+    l.appendChild(nm);
+    var descTxt = cfg.desc;
+    if(cfg.key==='w1'){
+      var nowD=new Date();
+      descTxt = nowD.getFullYear()+'年'+(nowD.getMonth()+1)+'月';
+    }
+    l.appendChild(el('div','pjdesc', descTxt));
+    top.appendChild(l);
+    var r=el('div');
+    r.style.textAlign='right';
+    var pct = ms.length ? Math.round(ms.reduce(function(a,t){return a+t.now/t.total;},0)/ms.length*100) : 0;
+    var pctLabel = '整体进度';
+    var wwKpiLine = '';
+    /* 旺旺膨化：头部进度改为「当月KPI进度」（最新月份加权总分） */
+    if(cfg.key==='w1'){
+      var kpiMonths={};
+      cache.kpis.forEach(function(k){ kpiMonths[k['月份']]=1; });
+      var kKeys=Object.keys(kpiMonths).sort();
+      var curMonth=kKeys.length?kKeys[kKeys.length-1]:'';
+      /* 数据回流：实际业绩 = 「客户订货明细」表当月实时汇总（KPI 表实际金额仅作兜底） */
+      var liveAmt=monthOrderAmt(curMonth);
+      var kRows=cache.kpis.filter(function(k){ return k['月份']===curMonth; });
+      var achRow=null, tgtAmt=0;
+      kRows.forEach(function(k){
+        if(k['指标名称']!=='销售额达成') return;
+        var g=Number(k['门槛金额'])||0, sm=Number(k['同期金额'])||0;
+        tgtAmt=Math.max(g, sm);
+        var amt = liveAmt>0 ? liveAmt : (Number(k['实际金额'])||0);
+        if(g>0 || sm>0) achRow=scoreOf(g, sm, amt);
+      });
+      var wSum2=0, sSum2=0;
+      kRows.forEach(function(k){
+        var w=Number(k['权重(%)'])||0;
+        var sc=achRow && k['指标名称']==='销售额达成' ? achRow.score : (Number(k['得分'])||0);
+        wSum2+=w; sSum2+=sc*w;
+      });
+      pct = wSum2 ? Math.round(sSum2/wSum2) : 0;
+      pctLabel = '当月KPI进度' + (curMonth ? ' · '+curMonth : '');
+      if(curMonth){
+        var ach2 = tgtAmt>0 ? Math.round(liveAmt/tgtAmt*100) : 0;
+        wwKpiLine = '当月订货 '+fmtMoney(liveAmt)+' / 目标 '+fmtMoney(tgtAmt)
+          + ' · 达成 '+ach2+'%' + (liveAmt>0 ? '（订货明细实时汇总）' : '（本月暂无订货记录）');
+      }
+    }
+    var pv=el('div','', String(pct)+'%');
+    pv.style.cssText='font-size:22px;font-weight:500;color:'+line.c;
+    r.appendChild(pv);
+    r.appendChild(el('div','pjdesc',pctLabel));
+    top.appendChild(r);
+    head.appendChild(top);
+    var bar=el('div','bar'); var bi=el('i');
+    bi.style.width=Math.max(0,Math.min(100,pct))+'%'; bi.style.background=line.c;
+    bar.appendChild(bi); head.appendChild(bar);
+    if(wwKpiLine){
+      var kl=el('div','pjdesc', wwKpiLine);
+      kl.style.cssText='margin-top:6px;font-size:12px;color:#6B6A66';
+      head.appendChild(kl);
+    }
+  }
+
+  /* W5 专属：头部三块科目成绩卡（语/数/英），默认显示最后一次录入，顶到卡片顶部 */
+  if(cfg.key==='w5') renderScoreCards(head, line);
+
+  /* 段2 · 指标卡（旺旺的指标卡已按需求移除，其余走待办汇总） */
+  var st=$('pjStats'); st.innerHTML='';
+  var metrics;
+  if(cfg.key==='w1'){
+    metrics=[];
+  }else if(cfg.key==='w5'){
+    var hs=computeHomeworkStats();
+    metrics=[['辅导次数', hs.sessions+' 次'],['累计时长', hs.minutes+' 分钟'],
+             ['错题总数', hs.wrong+' 道'],['待订正', hs.pending+' 道'],
+             ['需加强', hs.weak+' 次'],['订正率', hs.fixRate+'%']];
+  }else{
+    metrics=[['里程碑', list.filter(function(t){return t.kind==='项目里程碑';}).length+' 个'],
+             ['未完待办', undone+' 项'],['已完成', list.filter(function(t){return t.done;}).length+' 项'],
+             ['总数', list.length+' 条']];
+  }
+  metrics.forEach(function(m){
+    var c=el('div','stat');
+    c.style.background=line.bg;
+    var k=el('div','k',m[0]); k.style.color='#6B6A66';
+    var v=el('div','v',m[1]); v.style.color=line.c;
+    c.appendChild(k); c.appendChild(v);
+    st.appendChild(c);
+  });
+
+  /* 段3 · 信息区（旺旺三块铺开在 wwBlocks：信息录入 → 每日打卡 → 客户档案） */
+  var isWW = cfg.key==='w1';
+  var t1=$('pjStatTitle'), h1=$('pjStatHint');
+  t1.textContent = isWW ? '' : cfg.name+' 专属信息';
+  h1.textContent = isWW ? '' : '待完善';
+  var infoCard = t1 ? t1.closest('.card') : null;
+  if(infoCard) infoCard.style.display = isWW ? 'none' : '';
+  var wb=$('wwBlocks');
+  if(wb) wb.style.display = isWW ? '' : 'none';
+  var box=$('pjStatBox'); box.innerHTML='';
+  var nb=$('wwNoteBox'), cb=$('wwCustBox'), hb=$('wwCheckBox');
+  if(nb) nb.innerHTML='';
+  if(cb) cb.innerHTML='';
+  if(hb) hb.innerHTML='';
+  if(isWW){
+    renderNote(nb, line);
+    renderCheckin(hb, line);
+    renderCustomer(cb, line);
+  }else if(cfg.key==='w5'){
+    renderHomework(box, line);
+  }else{
+    box.appendChild(el('div','empty',
+      cfg.name+' 的信息区还没定内容。确认要记哪些字段后，这里会变成专属表单。'));
+  }
+
+  /* 段4 · 该项目待办 */
+  var t2=$('pjListTitle'), h2=$('pjListHint');
+  t2.textContent='该项目的待办';
+  h2.textContent = list.length ? (list.length+' 条') : '';
+  var tl=$('pjTodoList'); tl.innerHTML='';
+  var todos=list.filter(function(t){return t.kind!=='项目里程碑';});
+  if(!todos.length){ tl.appendChild(el('div','empty','这个项目还没有待办，点上方「新增待办」添加')); }
+  todos.sort(function(a,b){
+    if(a.done!==b.done) return a.done?1:-1;
+    if(a.od!==b.od) return a.od?-1:1;
+    var pa=a.pri.slice(0,2), pb=b.pri.slice(0,2);
+    if(pa!==pb) return pa<pb?-1:1;
+    return dayDiff(a.due)-dayDiff(b.due);
+  }).forEach(function(item){ tl.appendChild(buildTodoItem(item, false)); });
+}
+
+/* ===== 旺旺三模块（纵向铺开）：信息录入 → 每日打卡 → 客户档案 ===== */
+
+var curCust = '';
+
+var CHECK_NODES = [
+  {k:'上班卡(8:30前)',    t:'8:30 前',  n:'小程序打卡拍照'},
+  {k:'当日计划(企微)',    t:'8:30 前',  n:'企业微信发当天计划'},
+  {k:'吃药(9:00前)',      t:'9:00 前',  n:'每日吃药'},
+  {k:'巡店卡(10-11点)',   t:'10-11 点', n:'巡店拍照打卡'},
+  {k:'巡店卡(13-14点)',   t:'13-14 点', n:'巡店拍照打卡'},
+  {k:'巡店卡(15-16点)',   t:'15-16 点', n:'巡店拍照打卡'},
+  {k:'晚会(17点)',        t:'17:00',    n:'企业微信晚会视频会议'},
+  {k:'下班卡(17:30后)',   t:'17:30 后', n:'下班打卡'},
+  {k:'库存录入',          t:'5-6/15-16/25-26 号', n:'经销商库存录入'}
+];
+
+/* 库存录入窗口：每月 5-6 / 15-16 / 25-26 号 */
+function stockWindow(today){
+  var d = today || new Date();
+  var day = d.getDate();
+  if(day<=6) return {open:true, label:'5-6 号窗口', due:6};
+  if(day<=16) return {open:(day>=15), label:'15-16 号窗口', due:16};
+  return {open:(day>=25 && day<=26), label:'25-26 号窗口', due:26};
+}
+
+/* ---- 辅助：去重取客户名（台账已取消，统一从订货明细 + 在卖SKU 取） ---- */
+function dealerNames(){
+  var seen={}, out=[];
+  cache.cust.forEach(function(c){ var n=c['客户名称']; if(n && !seen[n]){ seen[n]=1; out.push(n); } });
+  cache.orders.forEach(function(o){ var n=o['经销商名称']; if(n && !seen[n]){ seen[n]=1; out.push(n); } });
+  cache.skus.forEach(function(s){ var n=s['经销商名称']; if(n && !seen[n]){ seen[n]=1; out.push(n); } });
+  return out;
+}
+
+/* ---- 模块1：客户档案（订货明细 + 在卖SKU） ---- */
+/* ---- 模块1：客户档案明细（按客户分组 + 行内编辑 + 订货录入 + 修改日志） ---- */
+/* 编辑面板状态：custEdit[name]=是否展开；custDraft[name]=录入行草稿 */
+var custEdit={};
+var custDraft={};
+var custLogOpen={};
+function skuNameList(){
+  var seen={}, out=[];
+  cache.orders.forEach(function(o){ var k=o['SKU名称']; if(k && !seen[k]){ seen[k]=1; out.push(k); } });
+  cache.skus.forEach(function(s){ var k=s['SKU名称']; if(k && !seen[k]){ seen[k]=1; out.push(k); } });
+  return out.sort();
+}
+function skuCatOf(name){
+  var hit='';
+  cache.orders.forEach(function(o){ if(o['SKU名称']===name && o['品类']) hit=o['品类']; });
+  return hit||'未填';
+}
+/* 产品元信息：规格取「客户在卖SKU」表，参考价取历史订货最近一次单价 */
+function skuMeta(name){
+  var spec='', price=0, pdate='';
+  if(!name) return {spec:'', price:0, date:''};
+  cache.skus.forEach(function(s){
+    if(String(s['SKU名称']||'')===name && !spec) spec=String(s['规格']||'');
+  });
+  cache.orders.forEach(function(o){
+    if(String(o['SKU名称']||'')!==name) return;
+    var p=Number(o['单价(元/箱)'])||0;
+    if(!p){ var q=Number(o['数量(箱)'])||0, a=Number(o['金额'])||0; if(q>0) p=a/q; }
+    if(p>0 && String(o['订货日期']||'')>=pdate){ pdate=String(o['订货日期']||''); price=p; }
+  });
+  return {spec:spec, price:Math.round(price*100)/100, date:pdate};
+}
+/* 当月订货实时汇总（数据回流：读「客户订货明细」表） */
+function monthOrderAmt(month){
+  var s=0;
+  cache.orders.forEach(function(o){
+    var d=String(o['订货日期']||'');
+    if(!month || d.slice(0,7)===month) s+=Number(o['金额'])||0;
+  });
+  return s;
+}
+function blankRow(){
+  return {sku:'', qty:'', amt:'', date:ymd(new Date()), ch:'线下门店'};
+}
+function orderDup(name, rows, existing){
+  /* 重复校验：同客户 + 同SKU + 同数量 + 同金额 视为重复（日期不参与，防手抖重复录入） */
+  var base=(existing||cache.orders).filter(function(o){
+    return o['经销商名称']===name;
+  });
+  var dups=0;
+  rows.forEach(function(r){
+    if(!r.sku && !r.qty && !r.amt) return;
+    var hit=base.some(function(o){
+      return String(o['SKU名称']||'')===String(r.sku||'')
+          && (Number(o['数量(箱)'])||0)===(Number(r.qty)||0)
+          && (Number(o['金额'])||0)===(Number(r.amt)||0);
+    });
+    if(hit) dups++;
+  });
+  return dups;
+}
+function renderCustomer(box, line){
+  var names=dealerNames();
+  if(curCust && names.indexOf(curCust)===-1) curCust='';
+
+  var filt=el('div','filt');
+  var lb=el('span','','客户：'); lb.style.fontSize='13px'; lb.style.color='#6B6A66';
+  filt.appendChild(lb);
+  var sel=document.createElement('select');
+  var op=document.createElement('option'); op.value=''; op.textContent='全部客户'; sel.appendChild(op);
+  names.forEach(function(n){ var o=document.createElement('option'); o.value=n; o.textContent=n; sel.appendChild(o); });
+  sel.value=curCust;
+  sel.onchange=function(){ curCust=sel.value; refreshAll(); };
+  filt.appendChild(sel);
+  box.appendChild(filt);
+
+  if(!names.length){
+    box.appendChild(el('div','empty','还没有客户。在信息录入里说一句「新一个客户 某某」即可建档'));
+  }
+
+  /* SKU 联想数据源（产品名称输入框共用） */
+  var skuNames=skuNameList();
+  var dl=document.createElement('datalist');
+  dl.id='skuNameList';
+  skuNames.forEach(function(k){ var o=document.createElement('option'); o.value=k; dl.appendChild(o); });
+  box.appendChild(dl);
+
+  /* 客户主数据索引（「旺旺·客户档案」表） */
+  var master={};
+  cache.cust.forEach(function(c){ if(c['客户名称']) master[c['客户名称']]=c; });
+
+  names.forEach(function(name){
+    if(curCust && name!==curCust) return;
+    var m=master[name]||{};
+    var ords=cache.orders.filter(function(o){ return o['经销商名称']===name; })
+      .sort(function(a,b){ return String(b['订货日期']||'').localeCompare(String(a['订货日期']||'')); });
+    var sks=cache.skus.filter(function(s){ return s['经销商名称']===name; });
+    var onSale=sks.filter(function(s){ return s['在售状态']==='在卖'; });
+
+    var qty=0, amt=0;
+    ords.forEach(function(o){ qty+=Number(o['数量(箱)'])||0; amt+=Number(o['金额'])||0; });
+    var lastDate=ords.length?String(ords[0]['订货日期']||'—'):'—';
+    var skuNames2=[];
+    ords.forEach(function(o){ if(o['SKU名称'] && skuNames2.indexOf(o['SKU名称'])<0) skuNames2.push(o['SKU名称']); });
+
+    /* 档案块 */
+    var blk=el('div','prof');
+    var head=el('div');
+    head.style.cssText='display:flex;align-items:center;gap:6px;flex-wrap:wrap';
+    var nm=el('span','ckt', name);
+    nm.style.cssText='font-size:15px;font-weight:500';
+    head.appendChild(nm);
+    if(m['渠道']){ var ch=el('span','tag', m['渠道']); ch.style.background=line.bg; ch.style.color=line.c; head.appendChild(ch); }
+    else { var ch2=el('span','tag','渠道未填'); ch2.style.background='#F1EFE8'; ch2.style.color='#6B6A66'; head.appendChild(ch2); }
+    if(onSale.length){ var os=el('span','tag','在售 '+onSale.length); os.style.background='#E1F5EE'; os.style.color='#0F6E56'; head.appendChild(os); }
+    /* 编辑按钮 */
+    var editBtn=el('button','btn btn-sm', custEdit[name]?'收起':'编辑');
+    editBtn.type='button';
+    editBtn.style.cssText='margin-left:auto;min-height:36px';
+    editBtn.onclick=function(){
+      custEdit[name]=!custEdit[name];
+      if(custEdit[name] && !custDraft[name]){
+        custDraft[name]={rows:[blankRow()], force:false,
+          master:{'联系人':m['联系人']||'', '联系方式':m['联系方式']||'',
+                  '客户地址':m['客户地址']||'', '渠道':m['渠道']||'电商'}};
+      }
+      refreshAll();
+    };
+    head.appendChild(editBtn);
+    blk.appendChild(head);
+
+    /* 联系信息行 */
+    var contact=[];
+    contact.push('联系人：'+(m['联系人']||'—'));
+    contact.push('联系方式：'+(m['联系方式']||'—'));
+    contact.push('地址：'+(m['客户地址']||'—'));
+    blk.appendChild(el('div','sub', contact.join('　')));
+
+    /* 订货汇总行 */
+    var stat=el('div');
+    stat.style.cssText='margin-top:6px;display:flex;gap:14px;flex-wrap:wrap;font-size:13px';
+    [['订货笔数', ords.length+' 笔'],['订货数量', qty+' 箱'],['订货金额', fmtMoney(amt)],['最近订货', lastDate]].forEach(function(p){
+      var s=el('span');
+      s.appendChild(el('span','sub', p[0]+' '));
+      var v=el('span','', p[1]); v.style.fontWeight='500'; v.style.color=line.c;
+      s.appendChild(v);
+      stat.appendChild(s);
+    });
+    blk.appendChild(stat);
+
+    /* SKU 名称 chips */
+    if(skuNames2.length){
+      var skuRow=el('div');
+      skuRow.style.cssText='margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;align-items:center';
+      skuRow.appendChild(el('span','sub','订过：'));
+      skuNames2.forEach(function(k){
+        var c=el('span','tag', k);
+        c.style.cssText='background:#fff;border:1px solid rgba(0,0,0,.12);color:#3D3D3A;font-weight:400';
+        skuRow.appendChild(c);
+      });
+      blk.appendChild(skuRow);
+    }
+
+    /* 在售 SKU chips */
+    if(sks.length){
+      var onRow=el('div');
+      onRow.style.cssText='margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;align-items:center';
+      onRow.appendChild(el('span','sub','在售SKU：'));
+      sks.slice().sort(function(a,b){ return (Number(b['月均动销(件)'])||0)-(Number(a['月均动销(件)'])||0); })
+        .forEach(function(s){
+          var st=s['在售状态']||'';
+          var c=el('span','tag', (s['SKU名称']||'')+(st==='在卖'?'':'（'+st+'）'));
+          if(st==='在卖'){ c.style.background='#E1F5EE'; c.style.color='#0F6E56'; }
+          else if(st==='停卖'){ c.style.background='#FCE8E8'; c.style.color='#A32D2D'; }
+          else { c.style.background='#F1EFE8'; c.style.color='#6B6A66'; }
+          onRow.appendChild(c);
+        });
+      blk.appendChild(onRow);
+    }
+
+    /* 订单明细小表 */
+    if(ords.length){
+      var tb=document.createElement('table'); tb.className='tb';
+      var thead=document.createElement('thead'); var htr=document.createElement('tr');
+      ['订货时间','SKU名称','数量','金额','渠道'].forEach(function(h){
+        var th=document.createElement('th'); th.textContent=h;
+        th.style.cssText='text-align:left;font-weight:500;color:#8A8985;font-size:12px;padding:6px 8px;border-bottom:1px solid rgba(0,0,0,.08)';
+        htr.appendChild(th);
+      });
+      thead.appendChild(htr); tb.appendChild(thead);
+      var tbody=document.createElement('tbody');
+      ords.forEach(function(o){
+        var tr=document.createElement('tr');
+        [String(o['订货日期']||''), o['SKU名称']||'', (Number(o['数量(箱)'])||0)+' 箱', fmtMoney(o['金额']), o['渠道']||''].forEach(function(v,i){
+          var td=document.createElement('td');
+          td.textContent=v;
+          td.style.cssText='padding:7px 8px;border-bottom:1px solid rgba(0,0,0,.05);font-size:12px'+(i===3?';font-weight:500':'');
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      tb.appendChild(tbody);
+      var tw=el('div');
+      tw.style.cssText='margin-top:8px;overflow-x:auto';
+      tw.appendChild(tb);
+      blk.appendChild(tw);
+    }else{
+      blk.appendChild(el('div','sub','暂无订货记录'));
+    }
+
+    /* 本客户修改历史（默认 3 条，可展开） */
+    var myLogs=cache.logs.filter(function(g){ return String(g['对象']||'')===name; })
+      .sort(function(a,b){ return String(b['时间']||'').localeCompare(String(a['时间']||'')); });
+    if(myLogs.length){
+      var lwrap=el('div');
+      lwrap.style.cssText='margin-top:8px';
+      var lhd=el('div','sub','修改历史 '+myLogs.length+' 条');
+      lhd.style.cssText='font-size:12px;color:#6B6A66;display:flex;align-items:center;gap:6px;cursor:pointer';
+      var lgOpen=!!custLogOpen[name];
+      if(myLogs.length>3){
+        var tg=el('button','btn btn-sm', lgOpen?'收起':'展开全部');
+        tg.type='button';
+        tg.style.cssText='min-height:26px;padding:0 8px;font-size:12px';
+        tg.onclick=function(){ custLogOpen[name]=!lgOpen; refreshAll(); };
+        lhd.appendChild(tg);
+      }
+      lwrap.appendChild(lhd);
+      (lgOpen?myLogs.slice(0,20):myLogs.slice(0,3)).forEach(function(g){
+        var lr=el('div','sub', (g['时间']||'')+'　'+(g['动作']||'')+'　'+(g['内容']||''));
+        lr.style.cssText='font-size:12px;color:#8A8985;margin-top:3px;line-height:1.5';
+        lwrap.appendChild(lr);
+      });
+      blk.appendChild(lwrap);
+    }
+
+    /* ===== 行内编辑面板 ===== */
+    if(custEdit[name]){
+      var draft=custDraft[name]||(custDraft[name]={rows:[blankRow()], force:false});
+      var panel=el('div');
+      panel.style.cssText='margin-top:10px;border-top:1px dashed rgba(0,0,0,.15);padding-top:10px';
+
+      /* 主数据修改 */
+      panel.appendChild(el('div','sec','档案信息修改'));
+      var mrow=el('div','row');
+      mrow.style.cssText='gap:10px;flex-wrap:wrap';
+      function mIn(lb2, key, val){
+        var inp=document.createElement('input');
+        inp.className='inp'; inp.type='text';
+        inp.value=draft.master[key]!==undefined?draft.master[key]:(val||'');
+        inp.setAttribute('data-mk', key);
+        inp.style.cssText='width:100%;font-size:15px';
+        inp.oninput=function(){ draft.master[key]=inp.value; };
+        var w=el('div'); w.style.cssText='flex:1;min-width:130px';
+        var l=el('div','sub', lb2); l.style.marginBottom='2px';
+        w.appendChild(l); w.appendChild(inp);
+        return w;
+      }
+      mrow.appendChild(mIn('联系人','联系人',m['联系人']));
+      mrow.appendChild(mIn('联系方式','联系方式',m['联系方式']));
+      mrow.appendChild(mIn('客户地址','客户地址',m['客户地址']));
+      var chSel2=document.createElement('select');
+      chSel2.className='inp';
+      chSel2.style.cssText='width:100%;font-size:15px';
+      ['电商','商超','特渠','其他'].forEach(function(t){
+        var o=document.createElement('option'); o.value=t; o.textContent=t; chSel2.appendChild(o);
+      });
+      chSel2.value=draft.master['渠道']||m['渠道']||'电商';
+      chSel2.setAttribute('data-mk','渠道');
+      chSel2.onchange=function(){ draft.master['渠道']=chSel2.value; };
+      var chw2=el('div'); chw2.style.cssText='flex:1;min-width:110px';
+      var chl2=el('div','sub','渠道'); chl2.style.marginBottom='2px';
+      chw2.appendChild(chl2); chw2.appendChild(chSel2);
+      mrow.appendChild(chw2);
+      panel.appendChild(mrow);
+
+      /* 订货录入（产品名称联想 + +号增行 + 重复校验） */
+      panel.appendChild(el('div','sec','订货录入（选产品自动带规格/参考价，金额按数量自动算）'));
+      var rowsWrap=el('div');
+      rowsWrap.style.cssText='display:flex;flex-direction:column;gap:8px';
+      draft.rows.forEach(function(r, idx){
+        var rw=el('div','row');
+        rw.style.cssText='gap:6px;flex-wrap:wrap;align-items:flex-end';
+        var refs={};
+        var rhint=el('div','sub','');
+        rhint.style.cssText='flex:0 0 100%;min-height:14px;margin-top:-2px';
+        function oIn(lb3, key, val, typ, wpx){
+          var inp=document.createElement('input');
+          inp.className='inp'; inp.type=typ||'text';
+          inp.value=(draft.rows[idx] && draft.rows[idx][key]!==undefined) ? draft.rows[idx][key] : (val||'');
+          inp.setAttribute('data-rk', key);
+          if(key==='sku'){ inp.setAttribute('list','skuNameList'); inp.setAttribute('placeholder','输入或选择产品名'); }
+          if(key==='qty') inp.setAttribute('placeholder','箱数');
+          inp.style.cssText='width:100%;font-size:15px';
+          inp.oninput=function(){
+            draft.rows[idx][key]=inp.value;
+            if(key==='sku'||key==='qty') autoFill();
+            else if(key==='amt') draft.rows[idx].amtManual=true;
+          };
+          if(key==='sku'||key==='qty') inp.onchange=function(){ autoFill(); };
+          refs[key]=inp;
+          var w=el('div'); w.style.cssText='flex:1;min-width:90px';
+          if(wpx) w.style.maxWidth=wpx;
+          var l=el('div','sub', lb3); l.style.marginBottom='2px';
+          w.appendChild(l); w.appendChild(inp);
+          return w;
+        }
+        /* 选产品 / 改数量 → 带出规格与参考价，金额 = 数量 × 参考价（手动改过金额则不再覆盖） */
+        function autoFill(){
+          var meta=skuMeta(String(refs.sku.value||'').trim());
+          var txt=[];
+          if(meta.spec) txt.push('规格 '+meta.spec);
+          if(meta.price>0) txt.push('参考价 ¥'+meta.price+'/箱'+(meta.date?'（'+meta.date+'）':''));
+          rhint.textContent=txt.join(' · ');
+          rhint.style.color=txt.length?'#0F6E56':'#8A8985';
+          if(meta.price>0 && !(draft.rows[idx] && draft.rows[idx].amtManual)){
+            var q=Number(refs.qty.value)||0;
+            if(q>0){
+              var a=Math.round(q*meta.price*100)/100;
+              refs.amt.value=String(a);
+              draft.rows[idx].amt=String(a);
+            }
+          }
+        }
+        rw.appendChild(oIn('产品名称','sku',r.sku,'text'));
+        rw.appendChild(oIn('数量(箱)','qty',r.qty,'number','110px'));
+        rw.appendChild(oIn('金额(¥)','amt',r.amt,'number','120px'));
+        rw.appendChild(oIn('订货日期','date',r.date,'date','160px'));
+        var chSel3=document.createElement('select');
+        chSel3.className='inp';
+        chSel3.style.cssText='width:100%;font-size:15px';
+        ['线下门店','批发流通','线上电商','社区团购'].forEach(function(t){
+          var o=document.createElement('option'); o.value=t; o.textContent=t; chSel3.appendChild(o);
+        });
+        chSel3.value=(draft.rows[idx] && draft.rows[idx].ch) || r.ch || '线下门店';
+        chSel3.setAttribute('data-rk','ch');
+        chSel3.onchange=function(){ draft.rows[idx].ch=chSel3.value; };
+        var chw3=el('div'); chw3.style.cssText='flex:1;min-width:110px;max-width:140px';
+        var chl3=el('div','sub','渠道'); chl3.style.marginBottom='2px';
+        chw3.appendChild(chl3); chw3.appendChild(chSel3);
+        rw.appendChild(chw3);
+        /* 行删除（至少保留一行） */
+        var delBtn=el('button','btn btn-sm','×');
+        delBtn.type='button';
+        delBtn.style.cssText='min-height:38px;min-width:38px';
+        delBtn.title='删除本行';
+        if(draft.rows.length<=1){ delBtn.disabled=true; delBtn.style.opacity='0.4'; }
+        delBtn.onclick=function(){
+          draft.rows.splice(idx,1);
+          if(!draft.rows.length) draft.rows.push(blankRow());
+          draft.force=false;
+          refreshAll();
+        };
+        rw.appendChild(delBtn);
+        rw.appendChild(rhint);
+        autoFill();
+        rowsWrap.appendChild(rw);
+      });
+      panel.appendChild(rowsWrap);
+
+      var addRowBtn=el('button','btn btn-sm','+ 增加一行');
+      addRowBtn.type='button';
+      addRowBtn.style.cssText='margin-top:8px;min-height:38px';
+      addRowBtn.onclick=function(){
+        draft.rows.push(blankRow());
+        draft.force=false;
+        refreshAll();
+      };
+      panel.appendChild(addRowBtn);
+
+      /* 保存（先查重） */
+      var saveWrap=el('div','row');
+      saveWrap.style.cssText='margin-top:12px;gap:8px;align-items:center';
+      var saveBtn=el('button','btn btn-p', draft.force?'仍要保存':'保存修改与订货');
+      saveBtn.type='button';
+      saveBtn.style.minHeight='42px';
+      saveBtn.onclick=function(){
+        try{
+          /* 读主数据 */
+          var mk={};
+          Array.from(panel.querySelectorAll('[data-mk]')).forEach(function(n){
+            var k=n.getAttribute('data-mk');
+            mk[k]=n.value.trim();
+          });
+          /* 读订货行 */
+          var rows=[];
+          Array.from(rowsWrap.children).forEach(function(rw){
+            if(!rw.className || rw.className.indexOf('row')<0) return;
+            var r={};
+            rw.querySelectorAll('[data-rk]').forEach(function(n){ r[n.getAttribute('data-rk')]=n.value.trim(); });
+            rows.push(r);
+          });
+          rows=rows.filter(function(r){ return r.sku || r.qty || r.amt; });
+          var validRows=rows.filter(function(r){ return r.sku && (Number(r.qty)||0)>0 && (Number(r.amt)||0)>0; });
+          if(!validRows.length && !hasMasterChange(m, mk)){
+            toast('没有需要保存的内容'); return;
+          }
+          /* 重复校验 */
+          if(validRows.length && !draft.force){
+            var dups=orderDup(name, validRows, cache.orders);
+            if(dups>0){
+              draft.force=true;
+              toast('发现 '+dups+' 条与历史重复（同客户+产品+数量+金额），确认无误点「仍要保存」');
+              refreshAll();
+              return;
+            }
+          }
+          var jobs=[];
+          /* 档案修改 */
+          if(hasMasterChange(m, mk)){
+            var mp={'客户名称':{text:name}};
+            if(mk['联系人']) mp['联系人']={text:mk['联系人']};
+            if(mk['联系方式']) mp['联系方式']={text:mk['联系方式']};
+            if(mk['客户地址']) mp['客户地址']={text:mk['客户地址']};
+            if(mk['渠道']) mp['渠道']={select:mk['渠道']};
+            jobs.push(writeCust((m.id||m._id||null), mp));
+            jobs.push(writeLog({'时间':{text:nowStamp()},'模块':{select:'客户档案'},'对象':{text:name},'动作':{select:m.id?'修改':'新增'},
+              '内容':{text:'档案信息更新（联系人/联系方式/地址/渠道）'}}));
+          }
+          /* 订货写入 */
+          validRows.forEach(function(r){
+            var q=Number(r.qty)||0, a=Number(r.amt)||0;
+            jobs.push(writeOrder({'经销商名称':{text:name}, '订货日期':{date:r.date||ymd(new Date())},
+              'SKU名称':{text:r.sku}, '品类':{text:skuCatOf(r.sku)}, '数量(箱)':{number:q},
+              '单价(元/箱)':{number: q?Math.round(a/q*100)/100:0}, '金额':{currency:a}, '渠道':{text:r.ch||'线下门店'}}));
+          });
+          if(validRows.length){
+            jobs.push(writeLog({'时间':{text:nowStamp()},'模块':{select:'客户档案'},'对象':{text:name},'动作':{select:'新增'},
+              '内容':{text:'录入订货 '+validRows.length+' 笔：'+validRows.map(function(r){ return r.sku+'×'+r.qty; }).join('，')}}));
+          }
+          setSync('同步中');
+          Promise.all(jobs)
+            .then(function(){ return fetchData(); })
+            .then(function(){
+              draft.rows=[blankRow()]; draft.force=false;
+              custEdit[name]=false;
+              wroteOk('已保存'+(validRows.length?('（订货 '+validRows.length+' 笔）'):''));
+              refreshAll();
+            })
+            .catch(function(e){ console.error('[cust-edit] 保存异常:', e); toast('保存失败：'+((e&&e.message)||'请稍后重试')); });
+        }catch(e){
+          console.error('[cust-edit] 保存异常:', e);
+          toast('操作失败：'+((e&&e.message)||e));
+        }
+      };
+      saveWrap.appendChild(saveBtn);
+      if(draft.force){
+        var warn=el('span','sub','检测到重复录入，再点一次将强制保存');
+        warn.style.cssText='font-size:12px;color:#A32D2D';
+        saveWrap.appendChild(warn);
+      }
+      panel.appendChild(saveWrap);
+      blk.appendChild(panel);
+    }
+    box.appendChild(blk);
+  });
+
+  /* 渠道分布（订单口径） */
+  var allOrders=cache.orders.filter(function(o){ return !curCust || o['经销商名称']===curCust; });
+  var chMap={};
+  allOrders.forEach(function(o){ var k=o['渠道']||'未填'; chMap[k]=(chMap[k]||0)+(Number(o['金额'])||0); });
+  var chKeys=Object.keys(chMap).sort(function(a,b){ return chMap[b]-chMap[a]; });
+  if(chKeys.length){
+    box.appendChild(el('div','sec','渠道分布（按订货金额）'));
+    var chMax=Math.max.apply(null, chKeys.map(function(k){ return chMap[k]; }))||1;
+    chKeys.forEach(function(k){
+      var r=el('div','rk');
+      r.appendChild(el('span','nm',k)).style.width='88px';
+      var bw=el('div','bw'); var bi=el('i');
+      bi.style.width=Math.round(chMap[k]/chMax*100)+'%';
+      bi.style.background=line.c;
+      bw.appendChild(bi); r.appendChild(bw);
+      r.appendChild(el('span','sub',fmtMoney(chMap[k])));
+      box.appendChild(r);
+    });
+  }
+
+  /* 修改日志（最近 10 条） */
+  box.appendChild(el('div','sec','修改日志（最近 10 条'+(curCust?' · '+curCust:'')+'）'));
+  var logs=cache.logs.filter(function(g){ return !curCust || String(g['对象']||'')===curCust; })
+    .sort(function(a,b){ return String(b['时间']||'').localeCompare(String(a['时间']||'')); });
+  if(!logs.length){
+    box.appendChild(el('div','empty','还没有修改记录'));
+  }else{
+    logs.slice(0,10).forEach(function(g){
+      var r=el('div','ckrow');
+      var head=el('div');
+      head.style.cssText='display:flex;align-items:center;gap:6px;flex-wrap:wrap';
+      var mt=el('span','tag', g['模块']||'');
+      mt.style.background='#F1EFE8'; mt.style.color='#6B6A66';
+      head.appendChild(mt);
+      var at=el('span','tag', g['动作']||'');
+      if(g['动作']==='新增'){ at.style.background='#E1F5EE'; at.style.color='#0F6E56'; }
+      else if(g['动作']==='修改'){ at.style.background='#FAEEDA'; at.style.color='#854F0B'; }
+      else { at.style.background='#FCE8E8'; at.style.color='#A32D2D'; }
+      head.appendChild(at);
+      head.appendChild(el('span','sub', g['对象']||''));
+      head.appendChild(el('span','sub', g['时间']||''));
+      r.appendChild(head);
+      r.appendChild(el('div','sub', g['内容']||''));
+      box.appendChild(r);
+    });
+  }
+}
+/* 主数据是否有变更 */
+function hasMasterChange(m, mk){
+  function nz(x){ return (x||'').trim(); }
+  return nz(mk['联系人'])!==nz(m['联系人'])
+      || nz(mk['联系方式'])!==nz(m['联系方式'])
+      || nz(mk['客户地址'])!==nz(m['客户地址'])
+      || nz(mk['渠道'])!==nz(m['渠道']);
+}
+
+
+function dist(rows, field){
+  var m={};
+  rows.forEach(function(r){ var k=r[field]||'未填'; m[k]=(m[k]||0)+1; });
+  return Object.keys(m).map(function(k){ return {k:k, v:m[k]}; })
+    .sort(function(a,b){ return b.v-a.v; });
+}
+
+
+function distBar(rows, field, color, box, title){
+  var d=dist(rows, field);
+  if(!d.length) return;
+  box.appendChild(el('div','sec',title));
+  var max=Math.max.apply(null, d.map(function(x){ return x.v; }))||1;
+  d.forEach(function(x){
+    var r=el('div','rk');
+    r.appendChild(el('span','nm',x.k)).style.width='76px';
+    var bw=el('div','bw'); var bi=el('i');
+    bi.style.width=Math.round(x.v/max*100)+'%';
+    bi.style.background=color;
+    bw.appendChild(bi); r.appendChild(bw);
+    r.appendChild(el('span','sub', x.v+' 次'));
+    box.appendChild(r);
+  });
+}
+
+
+function computeHomeworkStats(){
+  var s={sessions:cache.hw.length, minutes:0, weak:0,
+         wrong:cache.wrong.length, pending:0, fixed:0, fixRate:0};
+  cache.hw.forEach(function(h){
+    s.minutes += Number(h['时长(分钟)'])||0;
+    if(h['掌握情况']==='需加强') s.weak++;
+  });
+  cache.wrong.forEach(function(w){
+    if(w['已订正']===true) s.fixed++; else s.pending++;
+  });
+  s.fixRate = s.wrong ? Math.round(s.fixed/s.wrong*100) : 0;
+  return s;
+}
+
+
+/* ===== W5 学科成绩：三块卡 + 浮窗 ===== */
+var scoreSubjColor = {语文:'#0F6E56', 数学:'#185FA5', 英语:'#534AB7'};
+/* 取某科目全部成绩，日期倒序（无日期排最后） */
+function scoresOf(subject){
+  return cache.scores.filter(function(s){ return s['科目']===subject; })
+    .sort(function(a,b){
+      var da=String(a['日期']||''), db2=String(b['日期']||'');
+      if(da&&db2&&da!==db2) return db2.localeCompare(da);
+      return String(b['_id']||'').localeCompare(String(a['_id']||''));
+    });
+}
+/* 三块科目卡：默认显示最后一次录入的成绩 */
+function renderScoreCards(box, line){
+  var wrap=el('div','sc3');
+  wrap.setAttribute('data-score-cards','1');
+  SCORE_SUBJECTS.forEach(function(sub){
+    var list=scoresOf(sub);
+    var last=list.length?list[0]:null;
+    var b=el('button','sc'+(last?'':' empty'));
+    b.type='button';
+    b.setAttribute('data-sub', sub);
+    var k=el('div','k');
+    k.appendChild(el('span','', sub));
+    k.appendChild(el('span','more', list.length?('共 '+list.length+' 条 · 点击查看'):'点击录入'));
+    b.appendChild(k);
+    if(last){
+      b.appendChild(el('div','v', (last['成绩']===''||last['成绩']==null)?'—':String(last['成绩'])+' 分'))
+        .style.color=scoreSubjColor[sub]||'#2C2C2A';
+      b.appendChild(el('div','n', last['名称']||'（未命名）'));
+      b.appendChild(el('div','d', dayKey(last['日期'])||'未填日期'));
+    }else{
+      b.appendChild(el('div','v','还没有成绩'));
+      b.appendChild(el('div','n','点这里录入第一次'));
+    }
+    b.onclick=function(){ openScoreModal(sub); };
+    wrap.appendChild(b);
+  });
+  box.appendChild(wrap);
+}
+/* 打开某科目的成绩浮窗：历史列表 + 录入表单 */
+function openScoreModal(sub){
+  var mask=$('scoreMask'), mdl=$('scoreMdl');
+  if(!mask||!mdl) return;
+  mdl.innerHTML='';
+  var hd=el('div','mhd');
+  hd.appendChild(el('div','t', sub+' · 全部成绩'));
+  var x=el('button','x','✕'); x.type='button';
+  x.setAttribute('aria-label','关闭');
+  x.onclick=closeScoreModal;
+  hd.appendChild(x);
+  mdl.appendChild(hd);
+  var bd=el('div','mbody');
+  bd.appendChild(el('div','sec','历史成绩（最新在上）'));
+  var list=scoresOf(sub);
+  if(!list.length){
+    bd.appendChild(el('div','mempty','还没有记录，下面填第一条。'));
+  }else{
+    list.forEach(function(s){
+      var r=el('div','srow');
+      r.appendChild(el('div','sv', (s['成绩']===''||s['成绩']==null)?'—':String(s['成绩'])))
+        .style.color=scoreSubjColor[sub]||'#2C2C2A';
+      r.appendChild(el('div','sn', s['名称']||'（未命名）'));
+      r.appendChild(el('div','sd', dayKey(s['日期'])||''));
+      bd.appendChild(r);
+      if(s['备注']) bd.appendChild(el('div','sb','备注：'+s['备注']));
+    });
+  }
+  bd.appendChild(el('div','sec','录入新成绩'));
+  bd.appendChild(renderScoreForm(sub));
+  mdl.appendChild(bd);
+  mask.classList.add('on');
+}
+function closeScoreModal(){
+  var mask=$('scoreMask');
+  if(mask) mask.classList.remove('on');
+}
+/* 录入表单（浮窗内） */
+function renderScoreForm(sub){
+  var f=el('form','mform');
+  f.setAttribute('data-score-form', sub);
+  var f1=el('div','fld full');
+  f1.appendChild(el('label','','名称（如：三上 第二单元测验）'));
+  var i1=el('input','inp'); i1.id='scName'; i1.type='text'; i1.placeholder='三上 第二单元测验';
+  f1.appendChild(i1); f.appendChild(f1);
+  var f2=el('div','fld');
+  f2.appendChild(el('label','','成绩'));
+  var i2=el('input','inp'); i2.id='scVal'; i2.type='number'; i2.min='0'; i2.max='100'; i2.step='1'; i2.placeholder='92';
+  f2.appendChild(i2); f.appendChild(f2);
+  var f3=el('div','fld');
+  f3.appendChild(el('label','','日期'));
+  var i3=el('input','inp'); i3.id='scDate'; i3.type='date'; i3.value=ymd(new Date());
+  f3.appendChild(i3); f.appendChild(f3);
+  var f4=el('div','fld full');
+  f4.appendChild(el('label','','备注（可选）'));
+  var i4=el('input','inp'); i4.id='scMemo'; i4.type='text'; i4.placeholder='附加说明';
+  f4.appendChild(i4); f.appendChild(f4);
+  var row=el('div','row');
+  var save=el('button','btn btn-p','保存成绩'); save.type='submit';
+  var cancel=el('button','btn','取消'); cancel.type='button';
+  cancel.onclick=closeScoreModal;
+  row.appendChild(save); row.appendChild(cancel);
+  f.appendChild(row);
+  f.onsubmit=function(ev){
+    ev.preventDefault();
+    saveScore(sub, i1.value, i2.value, i3.value, i4.value, save);
+  };
+  setTimeout(function(){ try{ i1.focus(); }catch(_e){} }, 50);
+  return f;
+}
+/* 写库：新增一条成绩 */
+function saveScore(sub, name, val, date, memo, btn){
+  if(!name.trim()){ toast('请填名称，如「三上 第二单元测验」'); return; }
+  if(val===''||val===null||isNaN(Number(val))){ toast('请填成绩（数字）'); return; }
+  var props={
+    '科目':{select:sub},
+    '名称':{text:name.trim()},
+    '成绩':{number:Number(val)},
+    '日期':{date:date||ymd(new Date())}
+  };
+  if(memo && memo.trim()) props['备注']={text:memo.trim()};
+  btn.disabled=true; btn.textContent='保存中…';
+  setSync('同步中');
+  var write=function(){
+    if(!ensureDb()){
+      /* 离线兜底：暂存本地，不静默失败 */
+      var row={'科目':sub,'名称':props['名称'].text,'成绩':Number(val),
+               '日期':props['日期'].date,'备注':(props['备注']&&props['备注'].text)||'',_id:'local_'+Date.now()};
+      cache.scores.push(row);
+      localCache('scores', cache.scores);
+      setSync('离线模式');
+      toast('当前离线模式，已存本地；在资料库页面打开可写云端');
+      btn.disabled=false; btn.textContent='保存成绩';
+      refreshAll();
+      openScoreModal(sub);
+      return Promise.resolve();
+    }
+    return db.addRecord({databaseId:'YoQVogNYLTo7jyDH5aULAv', properties:props})
+      .then(function(){ return fetchData(); })
+      .then(function(){
+        setSync('已同步');
+        toast('已保存：'+sub+' '+name.trim()+' '+val+' 分');
+        refreshAll();
+        openScoreModal(sub);
+      })
+      .catch(function(e){
+        console.error('[score] 写入失败:', e);
+        setSync('离线模式');
+        toast('没保存上：'+((e&&e.message)||'请再试一次'));
+        btn.disabled=false; btn.textContent='保存成绩';
+      });
+  };
+  write();
+}
+
+function renderHomework(box, line){
+  if(!cache.hw.length && !cache.wrong.length){
+    box.appendChild(el('div','empty','还没有辅导记录和错题，填进「作业辅导记录」「错题本」两张表后这里会自动出来'));
+    return;
+  }
+
+  /* 最近辅导记录 */
+  if(cache.hw.length){
+    box.appendChild(el('div','sec','最近辅导'));
+    cache.hw.slice().sort(function(a,b){
+      return String(b['日期']||'').localeCompare(String(a['日期']||''));
+    }).slice(0,6).forEach(function(h){
+      var r=el('div','ckrow');
+      r.style.borderLeftColor = h['掌握情况']==='需加强' ? '#A32D2D'
+                              : (h['掌握情况']==='一般' ? '#BA7517' : '#0F6E56');
+      r.appendChild(el('div','ckt', String(h['日期']||'').slice(5)));
+      var c=el('div','ckn', (h['科目']||'')+' · '+(h['辅导内容']||''));
+      var t=el('span','tag', h['掌握情况']||'');
+      if(h['掌握情况']==='需加强'){ t.style.background='#FCEBEB'; t.style.color='#A32D2D'; }
+      else if(h['掌握情况']==='一般'){ t.style.background='#FAEEDA'; t.style.color='#854F0B'; }
+      else { t.style.background='#E1F5EE'; t.style.color='#0F6E56'; }
+      c.appendChild(t);
+      c.appendChild(el('div','sub', (Number(h['时长(分钟)'])||0)+' 分钟'+(h['备注']?(' · '+h['备注']):'')));
+      r.appendChild(c);
+      box.appendChild(r);
+    });
+  }
+
+  /* 科目分布（按辅导次数） */
+  if(cache.hw.length) distBar(cache.hw, '科目', line.c, box, '科目分布（按辅导次数）');
+
+  /* 错误类型分布 —— 找出主要失分原因 */
+  if(cache.wrong.length) distBar(cache.wrong, '错误类型', '#A32D2D', box, '错误类型分布（主要失分原因）');
+
+  /* 错题本：未订正优先 */
+  if(cache.wrong.length){
+    box.appendChild(el('div','sec','错题本（未订正优先）'));
+    cache.wrong.slice().sort(function(a,b){
+      var pa=a['已订正']===true?1:0, pb=b['已订正']===true?1:0;
+      if(pa!==pb) return pa-pb;
+      return String(b['日期']||'').localeCompare(String(a['日期']||''));
+    }).forEach(function(w){
+      var done = w['已订正']===true;
+      var r=el('div','ckrow'+(done?' done':''));
+      if(!done) r.style.background='#FDF5F5';
+      r.appendChild(el('div','ckt', String(w['日期']||'').slice(5)));
+      var c=el('div','ckn');
+      c.appendChild(el('div','', (w['科目']||'')+' · '+(w['错题摘要']||'')));
+      var t1=el('span','tag', w['错误类型']||'');
+      c.appendChild(t1);
+      var t2=el('span','tag', done ? ('已订正 · '+(w['重做结果']||'')) : '待订正');
+      if(done){ t2.style.background='#E1F5EE'; t2.style.color='#0F6E56'; }
+      else { t2.style.background='#FCEBEB'; t2.style.color='#A32D2D'; }
+      t2.style.marginLeft='4px';
+      c.appendChild(t2);
+      r.appendChild(c);
+      box.appendChild(r);
+    });
+  }
+}
+
+/* ---- 销售额达成计分：门槛与同期取高值为标的，分段计分，拿满 70 分封顶 ---- */
+function scoreOf(gate, same, real){
+  var gateHigh = gate >= same;
+  var base = Math.max(gate, same);
+  var rate = base ? real/base : 0;
+  var score = 0, note = '';
+  if(gateHigh){
+    if(rate >= 0.8){ score = 70; note = '完成率已达 80% 线，拿满 70 分（封顶，超额不加分）'; }
+    else { score = 70*rate/0.8; note = '不足 80%，按门槛完成百分比折算'; }
+  }else{
+    if(rate >= 1){ score = 70; note = '完成 100%，拿满 70 分（封顶，超额不加分）'; }
+    else { score = 0; note = '同期更高且完成不足 100%，记 0 分'; }
+  }
+  return {base:base, rate:rate, gateHigh:gateHigh,
+          score:Math.round(score*10)/10, note:note, gate:gate, same:same, real:real};
+}
+
+/* ---- 模块1：信息录入（语音 + 文字，存进随手记） ---- */
+var NOTE_TAGS = ['巡店记录','客户诉求','临时想法','待跟进'];
+var recog = null;
+var recogOn = false;
+function speechAvailable(){
+  return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+}
+/* 语音共用：点按钮开始/停止，识别结果通过 onText 回填 */
+function micStart(btn, onText){
+  if(recogOn && recog){ try{ recog.stop(); }catch(e){} recogOn=false; return; }
+  try{
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recog = new SR();
+    recog.lang='zh-CN'; recog.continuous=true; recog.interimResults=true;
+    recog.onstart=function(){ recogOn=true; btn.style.background='#A32D2D'; btn.style.color='#fff'; toast('开始听…说完点停止'); };
+    recog.onresult=function(ev){
+      var txt='';
+      for(var i=ev.resultIndex;i<ev.results.length;i++){ txt+=ev.results[i][0].transcript; }
+      onText(txt);
+    };
+    recog.onerror=function(ev){ recogOn=false; btn.style.background=''; btn.style.color=''; toast('语音失败：'+ev.error); };
+    recog.onend=function(){ recogOn=false; btn.style.background=''; btn.style.color=''; };
+    recog.start();
+  }catch(e){ toast('无法启动语音识别'); }
+}
+function noteRows(){
+  return cache.notes.map(function(n){
+    return {id:n.id||n._id||'', text:String(n['内容']||''), way:n['录入方式']||'文字',
+            cust:n['客户']||'', tag:n['标签']||'', at:n['时间']||'', todo:!!n['已转待办']};
+  }).sort(function(a,b){ return String(b.at).localeCompare(String(a.at)); });
+}
+function nowStamp(){
+  var d=new Date(), p=function(x){ return (x<10?'0':'')+x; };
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+}
+function iconMic(){
+  var NS='http://www.w3.org/2000/svg';
+  var s=document.createElementNS(NS,'svg');
+  s.setAttribute('viewBox','0 0 24 24'); s.setAttribute('fill','none');
+  s.setAttribute('stroke','currentColor'); s.setAttribute('stroke-width','2');
+  s.setAttribute('stroke-linecap','round'); s.setAttribute('stroke-linejoin','round');
+  s.style.cssText='width:15px;height:15px';
+  var p1=document.createElementNS(NS,'path'); p1.setAttribute('d','M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z');
+  var p2=document.createElementNS(NS,'path'); p2.setAttribute('d','M19 10v2a7 7 0 0 1-14 0v-2');
+  var p3=document.createElementNS(NS,'path'); p3.setAttribute('d','M12 19v3');
+  s.appendChild(p1); s.appendChild(p2); s.appendChild(p3);
+  return s;
+}
+/* ---- 意图解析：随手记「新增客户」识别（规则版） ---- */
+
+function parseNoteIntent(txt){
+  var t=txt.trim();
+  if(!t) return null;
+  /* 新增客户：新(增/建/开/添加/一个/一家…)客户 名称 */
+  var m=t.match(/(?:新增|新建|新开|添加|新|加)(?:一个|一家|个|家)?客户/);
+  if(m){
+    var rest=t.slice(m.index+m[0].length).replace(/^[\s:：,，、]*/,'');
+    var name=rest.split(/[\s,，。;；！!？?]/)[0];
+    if(name) return {type:'cust', name:name};
+  }
+  return null;
+}
+/* 意图确认卡：识别结果可编辑，确认后才写库 */
+/* 意图确认卡：随手记「新增客户」识别结果可编辑，查重通过后才写库 */
+function renderIntentCard(wrap, line, intent, onDone){
+  wrap.innerHTML='';
+  var card=el('div');
+  card.style.cssText='border:1px dashed '+line.c+';border-radius:8px;padding:10px;margin-top:10px;background:#fff';
+  var head=el('div');
+  head.style.cssText='display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:'+line.bg;
+  head.appendChild(el('span','tag','识别到 · 新增客户'));
+  card.appendChild(head);
+
+  var fields={};
+  function addField(lb, key, val, typ){
+    var inp=document.createElement('input');
+    inp.className='inp'; inp.type=typ||'text';
+    inp.value=val===undefined||val===null?'':String(val);
+    inp.style.cssText='width:100%;font-size:15px';
+    fields[key]=inp;
+    var w=el('div');
+    w.style.cssText='flex:1;min-width:110px';
+    var l=el('div','sub', lb); l.style.marginBottom='2px';
+    w.appendChild(l); w.appendChild(inp);
+    return w;
+  }
+  var row=el('div','row');
+  row.style.cssText='margin-top:8px;gap:10px;flex-wrap:wrap';
+  row.appendChild(addField('客户名称', 'name', intent.name));
+  row.appendChild(addField('联系人', 'contact', ''));
+  row.appendChild(addField('联系方式', 'phone', ''));
+  row.appendChild(addField('客户地址', 'addr', ''));
+  var chSel=document.createElement('select');
+  chSel.className='inp';
+  chSel.style.cssText='width:100%;font-size:15px';
+  ['电商','商超','特渠','其他'].forEach(function(t){
+    var o=document.createElement('option'); o.value=t; o.textContent=t; chSel.appendChild(o);
+  });
+  fields.ch=chSel;
+  var chw=el('div'); chw.style.cssText='flex:1;min-width:110px';
+  var chl=el('div','sub','渠道'); chl.style.marginBottom='2px';
+  chw.appendChild(chl); chw.appendChild(chSel);
+  row.appendChild(chw);
+  card.appendChild(row);
+
+  var act=el('div','row');
+  act.style.cssText='margin-top:10px;gap:8px;align-items:center';
+  var okBtn=el('button','btn btn-p','确认写入');
+  okBtn.type='button';
+  okBtn.style.minHeight='40px';
+  okBtn.onclick=function(){
+    try{
+      var nm=fields.name.value.trim();
+      if(!nm){ toast('客户名称不能为空'); return; }
+      /* 重复校验：客户已存在则拒绝新建，引导去档案里编辑 */
+      if(dealerNames().indexOf(nm)>=0){
+        toast('「'+nm+'」已存在，请在客户档案里直接编辑'); return;
+      }
+      var props={'客户名称':{text:nm}};
+      if(fields.ch.value) props['渠道']={select:fields.ch.value};
+      if(fields.contact.value.trim()) props['联系人']={text:fields.contact.value.trim()};
+      if(fields.phone.value.trim()) props['联系方式']={text:fields.phone.value.trim()};
+      if(fields.addr.value.trim()) props['客户地址']={text:fields.addr.value.trim()};
+      writeCust(null, props)
+        .then(function(){ return writeLog({'时间':{text:nowStamp()},'模块':{select:'信息录入'},'对象':{text:nm},'动作':{select:'新增'},'内容':{text:'随手记识别新增客户'}}); })
+        .then(function(){ return fetchData(); })
+        .then(function(){
+          wroteOk('已写入客户档案：'+nm); wrap.innerHTML=''; if(onDone) onDone(); refreshAll();
+        })
+        .catch(function(e){ console.error('[intent] 写入异常:', e); toast('写入失败：'+((e&&e.message)||'请稍后重试')); });
+    }catch(e){
+      console.error('[intent] 确认写入异常:', e);
+      toast('操作失败：'+((e&&e.message)||e));
+    }
+  };
+  act.appendChild(okBtn);
+  var hint=el('span','sub','识别结果可修改，确认后才写入');
+  hint.style.fontSize='12px';
+  act.appendChild(hint);
+  card.appendChild(act);
+  wrap.appendChild(card);
+}
+
+function renderNote(box, line){
+  /* 录入框 */
+  var card=el('div');
+  card.style.cssText='background:'+line.bg+';border-radius:10px;padding:12px;margin-bottom:14px';
+  var ta=document.createElement('textarea');
+  ta.id='nText';
+  ta.className='inp';
+  ta.rows=3;
+  ta.placeholder='说点什么，或点右边麦克风直接说话…';
+  ta.style.cssText='width:100%;font-size:16px;line-height:1.6;resize:vertical';
+  card.appendChild(ta);
+
+  /* 意图识别确认卡（规则解析，确认后才写库） */
+  var intentWrap=el('div');
+  intentWrap.id='nIntent';
+  card.appendChild(intentWrap);
+  var parseTimer=null;
+  ta.addEventListener('input', function(){
+    if(parseTimer) clearTimeout(parseTimer);
+    parseTimer=setTimeout(function(){
+      var it=parseNoteIntent(ta.value);
+      if(it){ renderIntentCard(intentWrap, line, it); }
+      else { intentWrap.innerHTML=''; }
+    }, 200);
+  });
+
+  var row1=el('div','row');
+  row1.style.cssText='margin-top:10px;flex-wrap:wrap;gap:8px';
+  var custSel=document.createElement('select');
+  custSel.id='nCust';
+  custSel.className='inp';
+  custSel.style.cssText='width:auto;min-width:130px;font-size:16px';
+  var o0=document.createElement('option'); o0.value=''; o0.textContent='不关联客户'; custSel.appendChild(o0);
+  dealerNames().forEach(function(n){
+    var o=document.createElement('option'); o.value=n; o.textContent=n; custSel.appendChild(o);
+  });
+  row1.appendChild(custSel);
+  var tagSel=document.createElement('select');
+  tagSel.id='nTag';
+  tagSel.className='inp';
+  tagSel.style.cssText='width:auto;min-width:110px;font-size:16px';
+  NOTE_TAGS.forEach(function(t){
+    var o=document.createElement('option'); o.value=t; o.textContent=t; tagSel.appendChild(o);
+  });
+  row1.appendChild(tagSel);
+  card.appendChild(row1);
+
+  var row2=el('div','row');
+  row2.style.cssText='margin-top:10px;gap:8px';
+  var micBtn=el('button','btn btn-sm');
+  micBtn.type='button';
+  micBtn.appendChild(iconMic());
+  micBtn.appendChild(el('span','',' 语音录入'));
+  micBtn.style.cssText='display:inline-flex;align-items:center;gap:4px;min-height:44px';
+  if(speechAvailable()){
+    micBtn.onclick=function(){
+      micStart(micBtn, function(txt){
+        var cur=ta.value;
+        ta.value = cur ? (cur.replace(/\s*$/,'')+txt) : txt;
+      });
+    };
+  }else{
+    micBtn.disabled=true;
+    micBtn.style.opacity='0.45';
+    micBtn.title='当前浏览器不支持语音识别，请直接用文字输入';
+  }
+  row2.appendChild(micBtn);
+
+  var saveBtn=el('button','btn btn-p','保存');
+  saveBtn.type='button';
+  saveBtn.style.minHeight='44px';
+  saveBtn.onclick=function(){
+    var txt=ta.value.trim();
+    if(!txt){ toast('先写点内容'); return; }
+    var props={'内容':{text:txt},
+               '录入方式':{select: (recogOn?'语音':'文字')},
+               '时间':{text:nowStamp()},
+               '已转待办':{checkbox:false}};
+    if(custSel.value) props['客户']={text:custSel.value};
+    if(tagSel.value) props['标签']={select:tagSel.value};
+    writeNote(null, props).then(function(){
+      ta.value=''; clearFormCache(); wroteOk('已保存'); refreshAll();
+    }).catch(function(){ toast('保存失败'); });
+  };
+  row2.appendChild(saveBtn);
+  card.appendChild(row2);
+
+  if(!speechAvailable()){
+    var tip=el('div','sub','当前浏览器不支持语音识别（建议用 Chrome / Edge 打开），已只保留文字录入');
+    tip.style.marginTop='8px'; tip.style.color='#854F0B';
+    card.appendChild(tip);
+  }
+  box.appendChild(card);
+
+  /* 近期记录 */
+  var rows=noteRows();
+  box.appendChild(el('div','sec','随手记（'+rows.length+' 条）'));
+  if(!rows.length){
+    box.appendChild(el('div','empty','还没有记录，上面说一句试试'));
+    return;
+  }
+  rows.forEach(function(n){
+    var r=el('div','ckrow');
+    var head=el('div');
+    head.style.cssText='display:flex;align-items:center;gap:6px;flex-wrap:wrap';
+    var wt=el('span','tag', n.way);
+    if(n.way==='语音'){ wt.style.background='#E6F1FB'; wt.style.color='#185FA5'; }
+    head.appendChild(wt);
+    if(n.tag){ var tg=el('span','tag', n.tag); tg.style.background='#F1EFE8'; tg.style.color='#6B6A66'; head.appendChild(tg); }
+    if(n.cust) head.appendChild(el('span','sub', n.cust));
+    head.appendChild(el('span','sub', n.at));
+    r.appendChild(head);
+    var tx=el('div','', n.text);
+    tx.style.cssText='margin-top:4px;font-size:14px;line-height:1.6;white-space:pre-wrap';
+    r.appendChild(tx);
+    var acts=el('div','row');
+    acts.style.cssText='margin-top:8px;gap:8px';
+    var bTodo=el('button','btn btn-sm', n.todo?'已转待办':'转待办');
+    bTodo.type='button';
+    if(n.todo) bTodo.disabled=true;
+    bTodo.onclick=function(){
+      writeTodo(null, {'事项':{text:n.text.slice(0,40)},'类型':{select:'待办'},'完成':{checkbox:false},
+                       '进度':{number:0},'总目标数':{number:1},
+                       '截止日期':{date:ymd(new Date())}})
+        .then(function(){ return writeNote(n.id, {'已转待办':{checkbox:true}}); })
+        .then(function(){ toast('已生成待办'); refreshAll(); })
+        .catch(function(){ toast('操作失败'); });
+    };
+    acts.appendChild(bTodo);
+    var bDel=el('button','btn btn-sm','删除');
+    bDel.type='button';
+    bDel.onclick=function(){
+      if(!n.id){ toast('缺少记录 ID'); return; }
+      db.deleteRecord({databaseId:'PouGOpqFGDOBIEayNHdayk', recordId:n.id})
+        .then(function(){ return fetchData(); })
+        .then(function(){ toast('已删除'); refreshAll(); })
+        .catch(function(){ toast('删除失败'); });
+    };
+    acts.appendChild(bDel);
+    r.appendChild(acts);
+    box.appendChild(r);
+  });
+}
+
+/* ---- 模块3：每日打卡 ---- */
+function renderCheckin(box, line){
+  var todayStr=ymd(new Date());
+  var rec=null;
+  cache.checks.forEach(function(c){ if(dayKey(c['日期'])===todayStr) rec=c; });
+  var win=stockWindow(new Date());
+
+  var top=el('div');
+  top.style.cssText='display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
+  var d=el('div','', todayStr);
+  d.style.cssText='font-size:15px;font-weight:500';
+  top.appendChild(d);
+  var vt=el('span','sub','v28');
+  vt.style.cssText='font-size:11px;color:#B4B2A9';
+  top.appendChild(vt);
+  var doneN=0;
+  CHECK_NODES.forEach(function(n){ if(rec && rec[n.k]===true) doneN++; });
+  var st=el('span','tag', '已完成 '+doneN+' / '+CHECK_NODES.length);
+  if(doneN===CHECK_NODES.length){ st.style.background='#E1F5EE'; st.style.color='#0F6E56'; }
+  top.appendChild(st);
+  var st2=el('span','tag', '未完成 '+(CHECK_NODES.length-doneN)+' 项');
+  st2.style.cssText='background:#F1EFE8;color:'+(CHECK_NODES.length-doneN?'#A32D2D':'#0F6E56');
+  top.appendChild(st2);
+  box.appendChild(top);
+
+  /* 环境自诊断：一眼看出 SDK / 今日记录 / 表内条数 */
+  var dzWrap=el('div');
+  dzWrap.style.cssText='display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-4px 0 10px';
+  var dz=el('div','sub',
+    sdkDiag()
+    + ' · 今日记录：' + (rec ? ('已存在 '+(String(rec._id||rec.id||'')||'').slice(0,8)) : '无(点方框新建)')
+    + ' · 表内 '+cache.checks.length+' 条'
+  );
+  dz.style.cssText='font-size:11px;color:'+(db?'#B4B2A9':'#A32D2D');
+  dz.setAttribute('data-diag','1');
+  dzWrap.appendChild(dz);
+  if(!db){
+    var rb=el('button','btn btn-sm','立即重连');
+    rb.type='button';
+    rb.style.cssText='min-height:24px;padding:0 8px;font-size:11px';
+    rb.onclick=function(){
+      rb.textContent='重连中…';
+      waitForDb(4000).then(function(got){
+        if(!got){ rb.textContent='重连失败'; toast('还是没连上：'+sdkDiag()); return; }
+        setSync('同步中');
+        fetchData().then(function(){
+          setSync('已同步'); toast('已连上数据表'); refreshAll();
+        }, function(){ setSync('离线模式'); refreshAll(); });
+      });
+    };
+    dzWrap.appendChild(rb);
+    var pb=el('button','btn btn-sm','深度诊断');
+    pb.type='button';
+    pb.style.cssText='min-height:24px;padding:0 8px;font-size:11px';
+    pb.onclick=function(){
+      pb.textContent='看结果 ↓';
+      var line=sdkProbe();
+      /* 诊断结论常驻显示，不靠 toast 一闪而过 */
+      var old=dzWrap.querySelector('[data-probe]');
+      if(old) old.parentNode.removeChild(old);
+      var pv=el('div','sub',line);
+      pv.setAttribute('data-probe','1');
+      pv.style.cssText='flex-basis:100%;font-size:11px;color:#A32D2D;line-height:1.6';
+      dzWrap.appendChild(pv);
+      toast('深度诊断结果见诊断行');
+    };
+    dzWrap.appendChild(pb);
+  }
+  box.appendChild(dzWrap);
+
+  /* 上一次打卡操作的结果（常驻可见，不依赖 toast） */
+  if(lastCheckMsg){
+    var lm=el('div','sub', lastCheckMsg.t);
+    lm.style.cssText='margin:-4px 0 10px;font-size:12px;font-weight:500;color:'
+      + (lastCheckMsg.ok?'#0F6E56':'#A32D2D');
+    box.appendChild(lm);
+  }
+
+  CHECK_NODES.forEach(function(n){
+    var on = !!(rec && rec[n.k]===true);
+    var r=el('div','ckrow'+(on?' done':''));
+    r.appendChild(el('div','ckt', n.t));
+    var c=el('div','ckn', n.n);
+    if(n.k==='库存录入'){
+      var w=el('span','tag', win.open?'窗口期内':'非窗口期');
+      if(win.open){ w.style.background='#FAEEDA'; w.style.color='#854F0B'; }
+      c.appendChild(document.createTextNode(' '));
+      c.appendChild(w);
+    }
+    r.appendChild(c);
+    /* 每行明确状态：已完成 / 未完成 */
+    var stt=el('span','tag', on?'已完成':'未完成');
+    stt.style.cssText='font-size:11px;padding:2px 7px;flex-shrink:0;'
+      + (on?'background:#E1F5EE;color:#0F6E56':'background:#F1EFE8;color:#8A8985');
+    r.appendChild(stt);
+    var b=document.createElement('button');
+    b.type='button';
+    b.className='ckb'+(on?' on':'');
+    b.setAttribute('aria-label', n.n+(on?' 已完成':' 未完成'));
+    var sv=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    sv.setAttribute('viewBox','0 0 24 24');
+    var pa=document.createElementNS('http://www.w3.org/2000/svg','path');
+    pa.setAttribute('d','M4 12l5 5L20 6');
+    sv.appendChild(pa); b.appendChild(sv);
+    b.onclick=function(){ toggleCheck(n, rec, todayStr); };
+    r.appendChild(b);
+    box.appendChild(r);
+  });
+
+  if(!rec){
+    var tip=el('div','sub','今日还没有打卡记录，点右侧方框会自动创建');
+    tip.style.marginTop='8px';
+    box.appendChild(tip);
+  }
+
+  /* 近 5 日记录 */
+  var recent=cache.checks.slice().sort(function(a,b){
+    return String(b['日期']||'').localeCompare(String(a['日期']||''));
+  }).slice(0,5);
+  if(recent.length){
+    box.appendChild(el('div','sec','最近记录'));
+    recent.forEach(function(c){
+      var n=0;
+      CHECK_NODES.forEach(function(x){ if(c[x.k]===true) n++; });
+      var r=el('div','rk');
+      r.appendChild(el('span','nm', dayKey(c['日期']).slice(5))).style.width='52px';
+      var bw=el('div','bw'); var bi=el('i');
+      bi.style.width=Math.round(n/CHECK_NODES.length*100)+'%';
+      bi.style.background = n===CHECK_NODES.length ? '#0F6E56' : '#185FA5';
+      bw.appendChild(bi); r.appendChild(bw);
+      r.appendChild(el('span','sub', n+'/'+CHECK_NODES.length));
+      if(c['备注']) r.appendChild(el('span','sub', c['备注']));
+      box.appendChild(r);
+    });
+  }
+}
+
+/* ---- 打卡写库：今日无记录则创建，有则取反 ---- */
+var lastCheckMsg = null;
+function toggleCheck(node, rec, todayStr){
+  var field=node.k;
+  if(!ensureDb()) {
+    lastCheckMsg={ok:false, t:'✗ 没连上数据表：'+sdkDiag()+'（点下方「立即重连」）'};
+    toast('没连上数据表，无法写入');
+    autoReconnect();
+    refreshAll();
+    return;
+  }
+  var cur = !!(rec && rec[field]===true);
+  var next = !cur;
+  var props = {};
+  props[field] = {checkbox: next};
+  /* 乐观更新：先让界面立刻有反馈，再写库；写失败回滚 */
+  var target=rec, created=false;
+  if(!target){
+    target={日期:todayStr};
+    cache.checks.push(target);
+    created=true;
+  }
+  target[field]=next;
+  setSync('同步中');
+  lastCheckMsg={ok:true, t:'…'+(next?'已打卡：':'已取消：')+node.n+'（正在保存）'};
+  toast((next?'已打卡：':'已取消：')+node.n);
+  refreshAll();
+  var rid = rec ? (rec.id||rec._id||rec.recordId||'') : '';
+  var op;
+  if(rec && rid){
+    op = db.updateRecord({databaseId:'2oiXI7NgV4T56mTqDJgaNu', recordId:rid, properties:props});
+  }else{
+    props['日期'] = {date: todayStr};
+    op = db.addRecord({databaseId:'2oiXI7NgV4T56mTqDJgaNu', properties:props});
+  }
+  op.then(function(){ return fetchData(); })
+    .then(function(){
+      setSync('已同步');
+      lastCheckMsg={ok:true, t:'✓ 已保存：'+node.n+' → '+(next?'已完成':'未完成')};
+      refreshAll();
+    })
+    .catch(function(e){
+      console.error('[checkin] 写入失败:', e);
+      if(created){ cache.checks=cache.checks.filter(function(c){ return c!==target; }); }
+      else { try{ rec[field]=cur; }catch(_e){} }
+      setSync('离线模式');
+      var cmsg=(e&&(e.message||e.msg))||'未知错误';
+      lastCheckMsg={ok:false, t:'✗ 没保存上：'+cmsg+'（请再点一次）'};
+      toast('打卡没保存上：'+cmsg);
+      /* 以云端为准重拉一次，清掉本地乐观值残留 */
+      (db ? fetchData() : Promise.resolve()).then(refreshAll, refreshAll);
+    });
+}
+
+function renderForms(){
+  fillSelect($('tLine'), SCHEMA.todo, '所属工作线');
+  fillSelect($('tPri'), SCHEMA.todo, '优先级');
+  fillSelect($('pLine'), SCHEMA.todo, '所属工作线');
+}
+function fillSelect(sel, schema, fieldName){
+  if(!sel) return;
+  var cur=sel.value;
+  sel.innerHTML='<option value="">请选择</option>';
+  var list = Object.prototype.toString.call(schema)==='[object Array]' ? schema : [];
+  list.forEach(function(f){
+    if(f.name!==fieldName || f.type!=='select') return;
+    (f.config&&f.config.options||[]).forEach(function(o){
+      var op=document.createElement('option');
+      op.value=o.id; op.textContent=o.text;
+      sel.appendChild(op);
+    });
+  });
+  if(cur) sel.value=cur;
+}
+/* 切换标签：显示对应面板，隐藏其余 */
+function switchPane(){
+  var map={'today':'tabToday','projAll':'tabProj'};
+  var showId = map[curTab] || 'tabProject';
+  ['tabToday','tabProj','tabProject'].forEach(function(id){
+    var n=$(id); if(n) n.style.display = (id===showId) ? '' : 'none';
+  });
+}
+
+/* ===== 统一刷新入口 ===== */
+/* 刷新前从 DOM 收割客户档案编辑草稿（防查重拦截等刷新后输入被清空）。
+   只按已有索引同步值，行的增删由 +/- 按钮管理，避免覆盖刚添加的行 */
+function harvestCustDrafts(){
+  Array.from(document.querySelectorAll('.prof')).forEach(function(blk){
+    var nmEl=blk.querySelector('.ckt');
+    if(!nmEl) return;
+    var name=nmEl.textContent.trim();
+    if(!custEdit[name] || !custDraft[name]) return;
+    var d=custDraft[name];
+    if(!d.master) d.master={};
+    Array.from(blk.querySelectorAll('[data-mk]')).forEach(function(n){
+      d.master[n.getAttribute('data-mk')]=n.value;
+    });
+    Array.from(blk.querySelectorAll('[data-rk="sku"]')).forEach(function(si, i){
+      if(!d.rows[i]) return;
+      var rowEl=si.parentNode && si.parentNode.parentNode;
+      if(!rowEl) return;
+      Array.from(rowEl.querySelectorAll('[data-rk]')).forEach(function(n){
+        d.rows[i][n.getAttribute('data-rk')]=n.value;
+      });
+    });
+  });
+}
+function refreshAll(){
+  harvestCustDrafts();
+  renderTabs();
+  switchPane();
+  renderToday();
+  renderProjects();
+  if(curTab==='w1'){
+    renderProjectView();
+  }else if(TABS.filter(function(t){return t.id===curTab;}).length){
+    renderProjectView();
+  }
+}
+
+/* ===== 事件处理（改数据 → refreshAll） ===== */
+function toggleBox(id){ var b=$(id); if(b) b.classList.toggle('open'); }
+function numVal(id){ return Number($(id).value)||0; }
+function dateVal(id){ return $(id).value||''; }
+function bindEvents(){
+  /* 成绩浮窗：点遮罩空白处关闭 / ESC 关闭 */
+  var mask=$('scoreMask');
+  if(mask){
+    mask.addEventListener('click', function(ev){
+      if(ev.target===mask) closeScoreModal();
+    });
+  }
+  document.addEventListener('keydown', function(ev){
+    if(ev.key==='Escape') closeScoreModal();
+  });
+  $('btnAddTodo').onclick=function(){ toggleBox('mbTodo'); };
+  $('tCancel').onclick=function(){ toggleBox('mbTodo'); };
+  $('tSave').onclick=function(){
+    var title=$('tTitle').value.trim();
+    if(!title){ toast('请填事项'); return; }
+    var props={'事项':{text:title}};
+    if($('tLine').value) props['所属工作线']={select:$('tLine').value};
+    if($('tPri').value) props['优先级']={select:$('tPri').value};
+    props['截止日期']={date:dateVal('tDue')||ymd(new Date())};
+    props['完成']={checkbox:false};
+    props['总目标数']={number:numVal('tGoal')||1};
+    props['进度']={number:0};
+    props['类型']={select:'待办'};
+    writeTodo(null, props).then(function(){
+      $('tTitle').value=''; toggleBox('mbTodo'); clearFormCache(); toast('已添加'); refreshAll();
+    }).catch(function(){ toast('添加失败'); });
+  };
+  $('btnPostpone').onclick=function(){
+    var list=computeTodayList().filter(function(x){return x.od;});
+    if(!list.length){ toast('没有逾期待办'); return; }
+    var today=ymd(new Date()), chain=Promise.resolve();
+    list.forEach(function(it){ chain=chain.then(function(){ return writeTodo(it.id, {'截止日期':{date:today}}); }); });
+    chain.then(function(){ toast('已顺延 '+list.length+' 项'); refreshAll(); }).catch(function(){ toast('操作失败'); });
+  };
+  $('btnAddProj').onclick=function(){ toggleBox('mbProj'); };
+  $('pCancel').onclick=function(){ toggleBox('mbProj'); };
+  $('pSave').onclick=function(){
+    var title=$('pTitle').value.trim();
+    if(!title){ toast('请填里程碑'); return; }
+    var props={'事项':{text:title},'类型':{select:'项目里程碑'},'完成':{checkbox:false},
+               '进度':{number:numVal('pNow')},'总目标数':{number:numVal('pGoal')||100}};
+    if($('pLine').value) props['所属工作线']={select:$('pLine').value};
+    if(dateVal('pDue')) props['截止日期']={date:dateVal('pDue')};
+    writeTodo(null, props).then(function(){
+      $('pTitle').value=''; toggleBox('mbProj'); clearFormCache(); toast('已添加'); refreshAll();
+    }).catch(function(){ toast('添加失败'); });
+  };
+  $('btnExport').onclick=function(){
+    var data=JSON.stringify({at:new Date().toISOString(), todos:cache.todos, months:cache.months, notes:cache.notes, cust:cache.cust, logs:cache.logs}, null, 2);
+    var a=document.createElement('a');
+    a.href='data:application/json;charset=utf-8,'+encodeURIComponent(data);
+    a.download='工作台备份_'+ymd(new Date())+'.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    toast('已导出');
+  };
+  $('btnImport').onclick=function(){ $('fileImp').click(); };
+  $('fileImp').onchange=function(e){
+    var f=e.target.files&&e.target.files[0]; if(!f) return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var d=JSON.parse(String(r.result));
+        cache.todos=d.todos||cache.todos; cache.months=d.months||cache.months; cache.notes=d.notes||cache.notes; cache.cust=d.cust||cache.cust; cache.logs=d.logs||cache.logs;
+        cache.scores=d.scores||cache.scores;
+        localCache('todos',cache.todos); localCache('months',cache.months); localCache('notes',cache.notes); localCache('cust',cache.cust); localCache('logs',cache.logs);
+        localCache('scores',cache.scores);
+        refreshAll(); toast('已恢复到本地');
+      }catch(err){ toast('文件格式不对'); }
+    };
+    r.readAsText(f); e.target.value='';
+  };
+}
+
+/* 防呆：本地文件打开时没有平台沙箱，SDK 永远不会注入，所有写入必然失败。
+   顶部红色横幅 + 一键跳在线版本，避免用户对着本地文件反复排查。 */
+var PAGE_URL = 'https://www.workbuddy.cn/space/d/JvO8fDprv4BKXTCxoDDA2a';
+function fileBanner(){
+  var isFile = false;
+  try{ isFile = (location.protocol === 'file:'); }catch(_e){}
+  if(!isFile || !document.body) return;
+  var b = el('div');
+  b.setAttribute('data-file-banner','1');
+  b.style.cssText='position:fixed;left:0;right:0;top:0;background:#A32D2D;color:#fff;'
+    +'font-size:13px;padding:10px 14px;display:flex;align-items:center;gap:12px;'
+    +'z-index:99999;box-shadow:0 2px 10px rgba(0,0,0,.22);font-weight:500';
+  var t = el('span','','你打开的是本地文件（'+String(location.href).slice(0,60)+'…），数据不会同步到云端');
+  t.style.cssText='flex:1;line-height:1.4';
+  var o = el('button','btn btn-sm','打开在线版本');
+  o.type='button';
+  o.style.cssText='background:#fff;color:#A32D2D;border:none;min-height:32px;'
+    +'padding:0 14px;font-size:13px;font-weight:600;cursor:pointer';
+  o.onclick=function(){ try{ window.open(PAGE_URL,'_blank'); }catch(_e){ location.href=PAGE_URL; } };
+  b.appendChild(t); b.appendChild(o);
+  document.body.appendChild(b);
+  document.body.style.paddingTop = '52px';
+}
+
+function init(){
+  /* 拿得到 SDK 就走在线；拿不到也立刻渲染本地缓存，靠后台探活自愈，不让页面空等 */
+  fileBanner();
+  var d0 = getDb();
+  if(d0){ db = d0; online = true; onlineBoot(); return; }
+  offlineBoot();
+}
+function offlineBoot(){
+  cache.todos=localCache('todos')||[];
+  cache.orders=localCache('orders')||[];
+  cache.skus=localCache('skus')||[];
+  cache.kpis=localCache('kpis')||[];
+  cache.checks=localCache('checks')||[];
+  cache.hw=localCache('hw')||[];
+  cache.wrong=localCache('wrong')||[];
+  cache.months=localCache('months')||[];
+  cache.notes=localCache('notes')||[];
+  cache.cust=localCache('cust')||[];
+  cache.logs=localCache('logs')||[];
+  cache.scores=localCache('scores')||[];
+  setSync('离线模式');
+  renderForms(); restoreFormInputs(); cacheFormInputs(); bindEvents(); refreshAll();
+  /* 进入离线不代表结束：后台继续探活，连上自动恢复，不用用户刷新 */
+  autoReconnect();
+}
+function onlineBoot(){
+  readSchemas()
+    .then(function(){ return fetchData(); })
+    .then(function(){
+      renderForms(); restoreFormInputs(); cacheFormInputs(); bindEvents(); refreshAll();
+      if(typeof db.onUpdated==='function'){
+        var timer=null;
+        db.onUpdated(function(payload){
+          var ids=(payload&&payload.databaseIds)||[];
+          if(ids.indexOf(TODO_DB)===-1
+             && ids.indexOf(MONTH_DB)===-1
+             && ids.indexOf(NOTE_DB)===-1
+             && ids.indexOf(LOG_DB)===-1
+             && ids.indexOf(CUST_DB)===-1) return;
+          if(timer) clearTimeout(timer);
+          timer=setTimeout(function(){ fetchData().then(refreshAll); }, 300);
+        });
+      }
+    })
+    .catch(function(e){
+      console.error('[init]', e);
+      offlineBoot();
+    });
+}
+
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
+else init();
+
+})();
+</script>
+</body>
+</html>

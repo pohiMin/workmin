@@ -1,0 +1,8 @@
+# WorkBuddy 项目内部数据（含 memory / 配置，不公开）
+.workbuddy/
+
+# 临时工作副本（补丁 / 回归中间产物）
+workbench/tmp/
+
+# 已归档的确认用预览页
+workbench/_archive/

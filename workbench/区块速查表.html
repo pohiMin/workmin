@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>海哥的多线作战台 · 区块速查表</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+       background:#F7F6F2;color:#2C2C2A;line-height:1.6;padding:24px 16px 64px}
+  .wrap{max-width:1080px;margin:0 auto}
+  .hero{background:#fff;border:1px solid #E8E6DF;border-radius:14px;padding:22px 24px;margin-bottom:18px}
+  .hero h1{font-size:21px;font-weight:700;display:flex;align-items:center;gap:10px}
+  .hero .sub{font-size:13px;color:#8A8985;margin-top:6px}
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;background:#E1F5EE;color:#0F6E56;font-weight:600;vertical-align:middle}
+  .card{background:#fff;border:1px solid #E8E6DF;border-radius:14px;padding:20px 22px;margin-bottom:16px}
+  .card h2{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:4px}
+  .card h2 svg{width:18px;height:18px;flex-shrink:0}
+  .card .hint{font-size:12px;color:#8A8985;margin-bottom:14px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;font-size:11px;color:#8A8985;font-weight:600;padding:8px 10px;border-bottom:1px solid #E8E6DF;white-space:nowrap}
+  td{padding:9px 10px;border-bottom:1px solid #F1EFE8;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11.5px;color:#534AB7;word-break:break-all}
+  .tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:5px;font-weight:600;white-space:nowrap}
+  .t-blue{background:#E6F1FB;color:#185FA5}.t-green{background:#E1F5EE;color:#0F6E56}
+  .t-amber{background:#FAEEDA;color:#854F0B}.t-red{background:#FCEBEB;color:#A32D2D}
+  .t-grey{background:#F1EFE8;color:#8A8985}.t-purple{background:#EEEDFE;color:#534AB7}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:4px}
+  .blk{border:1px solid #E8E6DF;border-radius:10px;padding:14px;background:#FCFCFA}
+  .blk .n{font-size:13px;font-weight:700;margin-bottom:2px;display:flex;align-items:center;gap:6px}
+  .blk .d{font-size:12px;color:#8A8985}
+  .blk .k{font-size:11.5px;color:#6B6A66;margin-top:8px;padding-top:8px;border-top:1px dashed #E8E6DF}
+  .blk .k b{color:#2C2C2A;font-weight:600}
+  ol.path{padding-left:0;list-style:none;counter-reset:p}
+  ol.path li{counter-increment:p;position:relative;padding-left:30px;margin-bottom:9px;font-size:13px}
+  ol.path li::before{content:counter(p);position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;
+    background:#185FA5;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12px;margin:8px 0}
+  .flow .st{background:#F1EFE8;border-radius:6px;padding:4px 9px;font-weight:600}
+  .flow .ar{color:#B4B2A9;font-weight:700}
+  .warn{background:#FCEBEB;border:1px solid #F5D5D5;border-radius:10px;padding:12px 14px;font-size:12.5px;color:#A32D2D;margin-top:10px}
+  .ok{background:#E1F5EE;border:1px solid #CFEBDD;border-radius:10px;padding:12px 14px;font-size:12.5px;color:#0F6E56;margin-top:10px}
+  .kv{display:flex;gap:10px;font-size:12.5px;padding:6px 0;border-bottom:1px dashed #E8E6DF}
+  .kv:last-child{border-bottom:none}
+  .kv .l{width:88px;color:#8A8985;flex-shrink:0}
+  .kv .v{flex:1}
+  a{color:#185FA5}
+  @media(max-width:760px){
+    .grid{grid-template-columns:1fr}
+    body{padding:14px 10px 48px}
+    th:nth-child(3),td:nth-child(3){display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      多线作战台 · 区块速查表 <span class="badge">页面版本 v25</span>
+    </h1>
+    <div class="sub">一页查全部：五大板块 → 旺旺膨化三区块 → 11 张数据表 → 排障入口 · 生成于 2026-10-13</div>
+  </div>
+
+  <!-- ============ 1. 页面骨架 ============ -->
+  <div class="card">
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h12"/></svg>页面骨架（从上到下）</h2>
+    <div class="hint">任何板块都按这个顺序铺开，永远知道自己在哪一层</div>
+    <div class="flow">
+      <span class="st">① 头部 KPI 条</span><span class="ar">→</span>
+      <span class="st">② 今天要处理</span><span class="ar">→</span>
+      <span class="st">③ 板块 Tab 切换</span><span class="ar">→</span>
+      <span class="st">④ 当前板块内容</span>
+    </div>
+    <div class="kv"><div class="l">① 头部 KPI</div><div class="v"><b>旺旺膨化 - 苏州所 · 实时年月</b> + 当月 KPI 进度条；下方一行 <span class="mono">当月订货 ¥xx / 目标 ¥xx · 达成 xx%（订货明细实时汇总）</span> —— 实际业绩读「客户订货明细」实时汇总，KPI 表原「实际金额」只作兜底</div></div>
+    <div class="kv"><div class="l">② 今天要处理</div><div class="v">逾期（红）/ 今天到期 / 近 3 天到期待办自动置顶；「全部顺延到今天」把昨天没做的滚过来，不凭空消失</div></div>
+    <div class="kv"><div class="l">③ 板块 Tab</div><div class="v">今日待办 · 项目进度 · 旺旺膨化 · AI小游戏 · 海外TikTok · 六爻抖音 · 孩子作业</div></div>
+  </div>
+
+  <!-- ============ 2. 五大板块 ============ -->
+  <div class="card">
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg>五大板块总览</h2>
+    <div class="hint">按 Tab 顺序排列；w2–w4 结构相同（项目进度 + 待办列表），w5 独立</div>
+    <div class="grid">
+      <div class="blk">
+        <div class="n"><span class="tag t-blue">w1</span>旺旺膨化</div>
+        <div class="d">经销商 · 订货库存回款</div>
+        <div class="k"><b>3 个区块纵排：</b>信息录入 → 每日打卡 → 客户档案<br><b>特有：</b>头部当月 KPI、随手记意图识别、客户档案编辑、订货明细回流</div>
+      </div>
+      <div class="blk">
+        <div class="n"><span class="tag t-purple">w2</span>AI小游戏</div>
+        <div class="d">半年计划 · 第 2 个月</div>
+        <div class="k"><b>区块：</b>项目进度总览 + 待办列表<br><b>操作：</b>新增里程碑（进度/目标数）</div>
+      </div>
+      <div class="blk">
+        <div class="n"><span class="tag t-green">w3</span>海外TikTok</div>
+        <div class="d">肯尼亚 · 零售批发</div>
+        <div class="k"><b>区块：</b>项目进度总览 + 待办列表<br><b>操作：</b>新增里程碑（进度/目标数）</div>
+      </div>
+      <div class="blk">
+        <div class="n"><span class="tag t-amber">w4</span>六爻抖音</div>
+        <div class="d">本地号 · 冷启动</div>
+        <div class="k"><b>区块：</b>项目进度总览 + 待办列表<br><b>操作：</b>新增里程碑（进度/目标数）</div>
+      </div>
+      <div class="blk">
+        <div class="n"><span class="tag t-green">w5</span>孩子作业</div>
+        <div class="d">苏州小学三年级</div>
+        <div class="k"><b>区块：</b>指标卡 6 个 + 最近辅导 + 科目分布 + 错误类型分布 + 错题本<br><b>数据来源：</b>「作业辅导记录」「错题本」两张表，填了自动出</div>
+      </div>
+      <div class="blk">
+        <div class="n"><span class="tag t-grey">通用</span>今日待办 / 项目进度</div>
+        <div class="d">跨板块的两个汇总 Tab</div>
+        <div class="k"><b>今日待办：</b>五条线待办合并，逾期置顶<br><b>项目进度：</b>所有里程碑汇总对比</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 3. 旺旺膨化三区块 ============ -->
+  <div class="card">
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>旺旺膨化 · 三区块详解</h2>
+    <div class="hint">纵向铺开（不堆叠）：信息录入 → 每日打卡 → 客户档案</div>
+
+    <table>
+      <tr><th style="width:96px">区块</th><th style="width:180px">能做什么</th><th>操作路径 / 要点</th></tr>
+      <tr>
+        <td><span class="tag t-blue">信息录入</span></td>
+        <td>随手记：语音或文字一句，带标签 + 关联客户，写进「随手记」表</td>
+        <td>
+          <b>建档捷径：</b>输入 <span class="mono">新一个客户 苏州侦儿</span> → 自动识别 → 弹确认卡（客户名称 / 联系人 / 联系方式 / 客户地址 / 渠道）→ 确认写入「客户档案」表并记一条修改日志；<b>重名会被拦截</b><br>
+          <b>标签：</b>给随手记打标便于回看；<b>客户下拉：</b>把这条记录挂到某个客户名下
+        </td>
+      </tr>
+      <tr>
+        <td><span class="tag t-green">每日打卡</span></td>
+        <td>9 个时间节点打卡，点方框即写「每日打卡」表</td>
+        <td>
+          顶部 <span class="mono">已完成 X / 9</span> + <span class="mono">未完成 X 项</span>（全打完变绿）；每行右侧有 <span class="tag t-green">已完成</span>/<span class="tag t-grey">未完成</span><br>
+          点击即时反馈：toast「已打卡：xxx」+ 界面立刻变勾 + 顶部常驻结果行 <span class="mono">✓ 已保存：xxx → 已完成</span>；写库失败红字 <span class="mono">✗ 没保存上：&lt;真实错误&gt;</span> 并回滚<br>
+          <b>今日无记录时</b>点方框会自动创建当天记录（不会重复建）
+        </td>
+      </tr>
+      <tr>
+        <td><span class="tag t-amber">客户档案</span></td>
+        <td>按客户分组管理档案 + 订货明细，行内编辑</td>
+        <td>
+          点客户块的「编辑」→ 主数据（联系人 / 联系方式 / 客户地址 / 渠道）+ 订货多行（产品 / 数量 / 金额 / 日期 / 渠道）<br>
+          <b>产品联想：</b>产品名输入自动带出 <span class="mono">规格 · 参考价</span>（参考价取该 SKU 最近一次订货单价）；<b>填数量后金额 = 数量 × 参考价自动预填</b>，手动改过就不再覆盖<br>
+          <b>「+ 增加一行」</b>录多产品；<b>查重：</b>同客户 + 同产品 + 同数量 + 同金额会被拦截，按钮变「仍要保存」才强制写入<br>
+          <b>修改历史：</b>每个客户块内嵌该客户最近记录（默认 3 条，超出出「展开全部」）；底部全局日志随选中客户过滤
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ============ 4. 打卡 9 项 ============ -->
+  <div class="card">
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M9 15l2 2 4-4"/></svg>每日打卡 · 9 个节点</h2>
+    <div class="hint">按时间顺序排列；第 9 项是月度窗口任务，不是每天</div>
+    <table>
+      <tr><th style="width:70px">时间</th><th style="width:190px">打卡项</th><th>说明</th></tr>
+      <tr><td>8:30 前</td><td>上班卡(8:30前)</td><td>小程序打卡拍照</td></tr>
+      <tr><td>8:30 前</td><td>当日计划(企微)</td><td>企业微信发当天计划</td></tr>
+      <tr><td><span class="tag t-green">9:00 前</span></td><td><b>吃药(9:00前)</b> · 每日吃药</td><td>新增项（v19），上午 9 点前完成</td></tr>
+      <tr><td>10-11 点</td><td>巡店卡(10-11点)</td><td>巡店拍照打卡</td></tr>
+      <tr><td>13-14 点</td><td>巡店卡(13-14点)</td><td>巡店拍照打卡</td></tr>
+      <tr><td>15-16 点</td><td>巡店卡(15-16点)</td><td>巡店拍照打卡</td></tr>
+      <tr><td>17:00</td><td>晚会(17点)</td><td>企业微信晚会视频会议</td></tr>
+      <tr><td>17:30 后</td><td>下班卡(17:30后)</td><td>下班打卡</td></tr>
+      <tr><td><span class="tag t-amber">5-6 / 15-16 / 25-26 号</span></td><td>库存录入</td><td>经销商库存录入；页面会标 <span class="tag t-amber">窗口期内</span>/<span class="tag t-grey">非窗口期</span>，只在窗口期才需要打</td></tr>
+    </table>
+  </div>
+
+  <!-- ============ 5. 常用操作 ============ -->
+  <div class="card">
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>常用操作速查</h2>
+    <div class="hint">按场景找步骤，不用记菜单</div>
+    <table>
+      <tr><th style="width:150px">我要…</th><th>怎么做</th></tr>
+      <tr><td><b>打一次卡</b></td><td>旺旺膨化 Tab → 每日打卡 → 点对应行右侧方框 → 看顶部结果行出 <span class="mono">✓ 已保存</span></td></tr>
+      <tr><td><b>新客户建档</b></td><td>信息录入 → 输入 <span class="mono">新一个客户 某某</span> → 确认卡补全 → 确认写入（客户档案块立即可见）</td></tr>
+      <tr><td><b>录一笔订货</b></td><td>客户档案 → 该客户「编辑」→ 订货录入 → 输入产品名（自动带规格/参考价）→ 填数量（金额自动算）→ 保存</td></tr>
+      <tr><td><b>录多产品订货</b></td><td>同上 → 点「+ 增加一行」逐行录 → 保存（一次写多行）</td></tr>
+      <tr><td><b>改客户联系方式</b></td><td>客户档案 → 该客户「编辑」→ 改主数据字段 → 保存（自动记修改日志）</td></tr>
+      <tr><td><b>看某客户改过什么</b></td><td>客户档案 → 该客户块内「修改历史 N 条」（超出 3 条点「展开全部」）</td></tr>
+      <tr><td><b>查全站改动记录</b></td><td>客户档案块底部「修改日志」→ 用客户下拉过滤到单个客户</td></tr>
+      <tr><td><b>看当月业绩</b></td><td>页面最顶部 KPI 条：进度条 + <span class="mono">当月订货 ¥xx / 目标 ¥xx</span>（实时汇总订货明细）</td></tr>
+      <tr><td><b>补录孩子作业</b></td><td>在「作业辅导记录」「错题本」两张表里填，孩子作业 Tab 自动出指标卡和分布图</td></tr>
+    </table>
+  </div>
+
+  <!-- ============ 6. 数据表对照 ============ -->
+  <div class="card">
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="#854F0B" stroke-width="2" stroke-linecap="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>数据表对照（11 张）</h2>
+    <div class="hint">页面每个区块背后一张表；表 ID 用于排障和脚本操作</div>
+    <table>
+      <tr><th style="width:120px">表名</th><th style="width:210px">表 ID</th><th>谁在写 / 谁在读</th></tr>
+      <tr><td>待办</td><td class="mono">1gQHCbHHyZIFJDGIrzyWrJ</td><td>写：新增待办/里程碑；读：今天要处理、项目进度、各板块待办</td></tr>
+      <tr><td>月度统计</td><td class="mono">cHPTKdlZZXnjPrU1Y9C9FS</td><td>读：项目页统计卡（旺旺线）</td></tr>
+      <tr><td>订货明细</td><td class="mono">JTZew6TvIp5hG4EKe71u5L</td><td>写：客户档案编辑面板；读：头部当月订货汇总、参考单价反推</td></tr>
+      <tr><td>在卖SKU</td><td class="mono">U3laEMDAkPXA2z8roktris</td><td>读：产品联想数据源、规格/参考价带出</td></tr>
+      <tr><td>KPI</td><td class="mono">bLlwFhzcQklJq9WJJmyoKg</td><td>读：头部当月 KPI 进度（实际金额作兜底）</td></tr>
+      <tr><td>打卡</td><td class="mono">2oiXI7NgV4T56mTqDJgaNu</td><td>写：点方框打卡；读：今日记录、最近 5 日</td></tr>
+      <tr><td>作业</td><td class="mono">asDeaPvz40oBo1xhdsaCHW</td><td>读：孩子作业 · 最近辅导、科目分布、指标卡</td></tr>
+      <tr><td>错题</td><td class="mono">wMf3x6Z4PJFl30mAM0Ze4r</td><td>读：错题本（未订正优先）、错误类型分布</td></tr>
+      <tr><td>随手记</td><td class="mono">PouGOpqFGDOBIEayNHdayk</td><td>写：信息录入框；读：随手记列表</td></tr>
+      <tr><td>客户档案</td><td class="mono">2bxBhhbZrbFGfZORlNNkE7</td><td>写：确认卡建档、编辑面板保存；读：客户档案块</td></tr>
+      <tr><td>修改日志</td><td class="mono">X0WZ2bOXpqAHT5HEZjhMNS</td><td>写：建档/改档案自动记；读：客户修改历史、全局日志</td></tr>
+    </table>
+    <div class="warn">已废弃/待清理：经销商台账 <span class="mono">3fum5bYR6WKnIkWAOkhvb6</span>、分公司库存 <span class="mono">9eyyzBBYlnr13sa5MUlC5p</span>、业务数据 <span class="mono">n0UMVzwtn5t8ZwAldi0OTA</span>（板块已取消，表壳还在）；另有误建重复空表 <span class="mono">A1Z6MRlLzhokQMrA0Fd9T4</span> 需到资料库手动删（平台无删表接口）</div>
+  </div>
+
+  <!-- ============ 7. 排障 ============ -->
+  <div class="card">
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="#A32D2D" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>排障速查</h2>
+    <div class="hint">按现象对症状，先看这里再问人</div>
+    <table>
+      <tr><th style="width:230px">现象</th><th>原因 / 处理</th></tr>
+      <tr><td><b>顶部有红色横幅</b>「你打开的是本地文件」</td><td>开的是 <span class="mono">file://</span> 本地 HTML，没有云端能力 → 点横幅「打开在线版本」，或直接开 <a href="https://www.workbuddy.cn/space/d/JvO8fDprv4BKXTCxoDDA2a" target="_blank">编辑版链接</a></td></tr>
+      <tr><td>诊断行 <span class="mono">__SMART_PAGE__ 不存在</span></td><td>平台 SDK 没注入（本地文件 / 外壳环境）→ 见上一条</td></tr>
+      <tr><td>诊断行 <span class="mono">__SMART_PAGE__ 存在但无 database</span></td><td>SDK 挂载不完整 → 点「立即重连」；仍失败刷新页面</td></tr>
+      <tr><td>打卡点了没反应</td><td>看打卡区那行结果：<span class="mono">✓ 已保存</span>=成功；<span class="mono">✗ 没保存上：&lt;错误&gt;</span>=写库失败，把错误原文报出来</td></tr>
+      <tr><td>数据像没更新</td><td>先看版本戳（打卡区日期旁 <span class="mono">v25</span>）确认是不是新版；再确认诊断行是 <span class="mono">SDK 已连接</span></td></tr>
+      <tr><td>想确认是否真落库</td><td>点「深度诊断」看容器形态/注入脚本/挂载状态；服务端可查「打卡」表今日记录</td></tr>
+    </table>
+    <div class="ok"><b>入口：</b>编辑版 <a href="https://www.workbuddy.cn/space/d/JvO8fDprv4BKXTCxoDDA2a" target="_blank">www.workbuddy.cn/space/d/JvO8fDprv4BKXTCxoDDA2a</a>（v25，最新） · 发布版 <a href="https://workbuddy.link/p/JvO8fDprv4BKXTCxoDDA2a" target="_blank">workbuddy.link/p/JvO8fDprv4BKXTCxoDDA2a</a>（仍是 v16，待同步）</div>
+  </div>
+
+  <!-- ============ 8. 版本 ============ -->
+  <div class="card">
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="#8A8985" stroke-width="2" stroke-linecap="round"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="9"/></svg>近期版本记录</h2>
+    <div class="hint">编辑版版本号即页面打卡区日期旁那个戳</div>
+    <table>
+      <tr><th style="width:64px">版本</th><th>改了什么</th></tr>
+      <tr><td><b>v18</b></td><td>订货录入自动带规格/参考价、金额=数量×参考价；头部业绩改读订货明细实时汇总；客户块内嵌修改历史</td></tr>
+      <tr><td><b>v19</b></td><td>新增「每日吃药(9:00前)」打卡项 + 每行已完成/未完成状态 + 点击即时反馈</td></tr>
+      <tr><td><b>v20</b></td><td>打卡日期 ISO 归一（修重复建记录）、toast 改 fixed 底部居中、常驻结果行、版本戳</td></tr>
+      <tr><td><b>v22</b></td><td>SDK 连接自愈三层：惰性获取 / 后台探活 / 立即重连按钮</td></tr>
+      <tr><td><b>v23–v24</b></td><td>深度诊断：容器形态、注入脚本是否存在、当前地址与协议、运行期报错留痕</td></tr>
+      <tr><td><b>v25</b></td><td>防呆：本地文件打开时顶部红色横幅 + 一键跳在线版本</td></tr>
+    </table>
+    <div class="ok"><b>待办（已记后置）：</b>P4 语音结构化订货/回款意图确认卡 · P5 订货明细 CSV/Excel 批量导入（决定头部回流数字可不可信）</div>
+  </div>
+
+</div>
+</body>
+</html>

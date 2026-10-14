@@ -19,3 +19,11 @@ node runtime-check.js
 
 ## 数据说明
 页面通过 WorkBuddy 资料库云端 SDK 读写业务数据；本地仓库不含任何业务数据或密钥。
+
+## 在线演示（GitHub Pages）
+本项目已启用 GitHub Pages，可直接在线查看界面（仅 UI 演示，**数据需 WorkBuddy 空间环境**才能读写；在 GitHub Pages 上打开时数据卡片为空、录入刷新即丢，属预期）：
+
+- 入口：https://pohimin.github.io/workmin/
+- 作战台：https://pohimin.github.io/workmin/workbench/index.html
+
+> 注：仓库为公开，当前 `workbench/index.html` 内含 WorkBuddy 资料库 ID（已随公开暴露）。如需彻底脱敏，可把 ID 抽离到 `config.js`（不进仓库）后 force-push 改写历史。
